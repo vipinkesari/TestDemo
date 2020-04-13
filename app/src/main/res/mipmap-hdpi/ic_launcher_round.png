@@ -1,0 +1,145 @@
+package com.desire.talenthunt.ui.uploadTalent
+
+import PreferenceHelper
+import PreferenceHelper.get
+import android.app.AlertDialog
+import android.app.DatePickerDialog
+import android.content.Context
+import android.content.DialogInterface
+import android.os.Bundle
+import android.text.Editable
+import android.text.TextUtils
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.desire.talenthunt.R
+import com.desire.talenthunt.base.BaseFragment
+import com.desire.talenthunt.constants.AppConstants
+import com.desire.talenthunt.model.requeset.GetProfileRequest
+import com.desire.talenthunt.model.requeset.RegisterRequest
+import com.desire.talenthunt.model.requeset.UpdateProfileRequest
+import com.desire.talenthunt.model.response.ProfileResponse
+import com.desire.talenthunt.model.response.RegisterResponse
+import com.desire.talenthunt.retrofilt.Resource
+import com.desire.talenthunt.utils.getMonthName
+import com.desire.talenthunt.viewModel.ProfileViewModel
+import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.fragment_profile.userEmailET
+import kotlinx.android.synthetic.main.fragment_profile.userNameET
+import kotlinx.android.synthetic.main.fragment_register.*
+import java.util.*
+
+
+class UploadTalentFragment : BaseFragment(), View.OnClickListener {
+
+    lateinit var profileViewModel: ProfileViewModel
+    lateinit var profileObserver: Observer<Resource<ProfileResponse>>
+    lateinit var updateProfileObserver: Observer<Resource<RegisterResponse>>
+
+    companion object {
+        val TAG = UploadTalentFragment::class.java.simpleName as String
+
+        fun getInstance(args: Bundle): Fragment {
+            var fragment: UploadTalentFragment =
+                UploadTalentFragment()
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(getLayoutId(), container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initUI()
+        initObserver()
+        getProfileApi()
+    }
+
+    private fun getLayoutId(): Int {
+        return R.layout.fragment_profile
+    }
+
+    private fun initUI() {
+        profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
+
+        userEmailET.clearFocus()
+        userDOBEt.setOnClickListener(this)
+        saveProfileBtn.setOnClickListener(this)
+        userGenderEt.setOnClickListener(this)
+
+        userDOBEt.setOnFocusChangeListener(View.OnFocusChangeListener { view, b ->
+            if (b) {
+               // if (TextUtils.isEmpty(userDOBEt.text))
+                    clickDataPicker(view)
+            }
+        })
+
+        userGenderEt.setOnFocusChangeListener(View.OnFocusChangeListener { view, b ->
+            if (b) {
+                //if (TextUtils.isEmpty(userGenderEt.text))
+                    genderPicker()
+            }
+        })
+    }
+
+    private fun initObserver() {
+        profileObserver = Observer {
+            if (it.Success && it.data != null) {
+                val profileResponse: ProfileResponse =
+                    it.data as ProfileResponse
+                if (profileResponse.res_status!!.status.equals("FAIL")) {
+                    toast(profileResponse.res_status?.msg ?: "")
+                } else {
+                    //toast("Success profile! ")
+                    profileResponse.res_data?.get(0)?.let { it1 -> setProfileData(it1) }
+                }
+
+            } else {
+                // toast("Something went wrong! ")
+            }
+        }
+
+        updateProfileObserver = Observer {
+            if (it.Success && it.data != null) {
+                val registerResponse: RegisterResponse = it.data as RegisterResponse
+                if (registerResponse.res_status!!.status.equals("FAIL")) {
+                    toast(registerResponse.res_status?.msg ?: "")
+                } else {
+                    toast("Success! ")
+                }
+
+            } else {
+                // toast("Something went wrong! ")
+            }
+        }
+    }
+
+    private fun getProfileApi() {
+        var request = GetProfileRequest()
+
+        val pref = PreferenceHelper.customPrefs(requireActivity())
+        val refrence_user_id: String? = pref.get(AppConstants.KEY_USER_REF_ID, "")
+
+        var subRequest = GetProfileRequest.Req_data();
+        subRequest.user_ref_id = (if (refrence_user_id == null) "" else refrence_user_id)
+        request.req_data = subRequest
+
+        profileViewModel.getProfileMutableRequest(request)
+        profileViewModel.getProfileResponse().observe(viewLifecycleOwner, profileObserver)
+    }
+
+    private fun setProfileData(res: ProfileResponse.Res_data) {
+        userNameET.setText(res.first_user_name + " " + res.last_user_name)
+        userEmailET.setText(res.user_em

@@ -1,0 +1,2 @@
+rootProject.name='My Infosys Program'
+include ':app'
