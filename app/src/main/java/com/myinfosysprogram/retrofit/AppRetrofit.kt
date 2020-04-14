@@ -1,5 +1,6 @@
 package com.myinfosysprogram.retrofit
 
+import android.content.Context
 import com.google.gson.GsonBuilder
 import com.myinfosysprogram.BuildConfig
 import com.myinfosysprogram.MyApplication
@@ -20,8 +21,9 @@ import java.util.concurrent.TimeUnit
 
 object AppRetrofit {
 
-    lateinit var mInstance: RetrofitService
+    var mInstance: RetrofitService
     private const val TIMEOUT = 30.toLong()
+    private var ctx: Context? = null
 
     init {
         mInstance =  makeRetrofitService()
@@ -30,7 +32,17 @@ object AppRetrofit {
     fun getInstance(): RetrofitService {
         if (mInstance == null)
             mInstance =
+                makeRetrofitService()
+
+        ctx = MyApplication.getAppContext()
+        return mInstance
+    }
+
+    fun getInstance(context : Context?): RetrofitService {
+        if (mInstance == null)
+            mInstance =
                 makeRetrofitService();
+        ctx = context
         return mInstance
     }
 
@@ -38,27 +50,33 @@ object AppRetrofit {
 
         val mBaseUrl = BASE_URL
         val cacheSize = (5*12024*104).toLong()
-        val myCache = Cache(MyApplication.getAppContext().cacheDir, cacheSize)
 
         val headerInterceptor: Interceptor = object : Interceptor {
             @Throws(IOException::class)
             override fun intercept(chain: Interceptor.Chain): Response {
 
+                var response: Response
+
                 /* for cache result */
-                var request = chain.request().newBuilder()
-                request = if (verifyAvailableNetwork(MyApplication.getAppContext(), null))
-                    request.header("Cache-Control", "public, max-age=" + 5)
-                else
-                    request.header("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7)
+                if(ctx != null) {
+                    var request = chain.request().newBuilder()
+                    request = if (verifyAvailableNetwork(ctx!!, null))
+                        request.header("Cache-Control", "public, max-age=" + 5)
+                    else
+                        request.header(
+                            "Cache-Control",
+                            "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7
+                        )
 
-                request.addHeader("Authorization", "authKey")
-                var response = chain.proceed(request.build())
-
-                /* for non cache */
-                //val builder = chain.request().newBuilder()
-                //builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
-                //builder.addHeader("Authorization", "authKey")
-                //var response = chain.proceed(builder.build())
+                    request.addHeader("Authorization", "authKey")
+                    response = chain.proceed(request.build())
+                }else {
+                    /* for non cache */
+                    val builder = chain.request().newBuilder()
+                    //builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
+                    builder.addHeader("Authorization", "authKey")
+                    response = chain.proceed(builder.build())
+                }
 
                 /* check for forbidden */
                 if (isForbidden(response.code)) {
@@ -72,7 +90,6 @@ object AppRetrofit {
             }
         }
         val httpClient = OkHttpClient().newBuilder()
-            .cache(myCache)
             //.addInterceptor(LastFmRequestInterceptor(apiKey, cacheDuration))
             .addInterceptor(headerInterceptor)
             .addInterceptor(HttpLoggingInterceptor().apply {
@@ -82,12 +99,18 @@ object AppRetrofit {
             })
             .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
             .readTimeout(TIMEOUT, TimeUnit.SECONDS)
-            .build()
+
+        if(ctx != null){
+            val myCache = Cache(ctx!!.cacheDir, cacheSize)
+            httpClient.cache(myCache)
+        }
+
+        httpClient.build()
 
 
         val retrofit = Retrofit.Builder()
             .baseUrl(mBaseUrl)
-            .client(httpClient)
+            .client(httpClient.build())
             .addConverterFactory(GsonConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(
                 GsonBuilder()
