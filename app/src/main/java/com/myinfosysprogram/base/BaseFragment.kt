@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.desire.talenthunt.base.BaseViewModelFactory
 
 abstract class BaseFragment : Fragment() {
 

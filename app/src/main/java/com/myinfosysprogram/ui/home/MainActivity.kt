@@ -5,21 +5,52 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.myinfosysprogram.R
+import com.myinfosysprogram.base.BaseActivity
+import com.myinfosysprogram.model.response.ListResponse
+import com.myinfosysprogram.retrofit.Resource
+import com.myinfosysprogram.utils.showShackBarMsg
+import com.myinfosysprogram.viewModel.ListViewModel
 
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_home.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
+    lateinit var listViewModel: ListViewModel
+    lateinit var titleObserver: Observer<String>
+
+    override fun getLayoutId(): Int {
+        return R.layout.activity_main
+    }
+
+    override fun initUI() {
+        listViewModel = ViewModelProvider(this).get(ListViewModel::class.java)
+
+        setSupportActionBar(toolbar)
+        manageToolbar(this.resources.getString(R.string.app_name))
+        initObserver()
+    }
+
+    private fun initObserver() {
+        titleObserver = Observer {
+            if (it != null)
+                manageToolbar(it)
+        }
+
+        listViewModel.titleUpdateMutableLiveData.observe(this, titleObserver)
+    }
+
+    private fun manageToolbar(title: String) {
+        val actionBar = supportActionBar
+        actionBar!!.title = title
+        cacheDir
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -33,8 +64,17 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings -> {
+                refreshHomeScreen()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    /* update the fragment which observe the perticular mutable in active state */
+    private fun refreshHomeScreen(){
+        listViewModel.refreshHomeUI()
+    }
+
 }

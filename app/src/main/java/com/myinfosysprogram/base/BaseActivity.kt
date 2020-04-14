@@ -12,7 +12,6 @@ abstract class BaseActivity : AppCompatActivity(),LifecycleOwner, BaseActivityIn
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getLayoutId())
-        setViewModels()
         initUI()
     }
 

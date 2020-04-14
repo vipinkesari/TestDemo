@@ -1,0 +1,71 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.myinfosysprogram"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="16"
+8-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="29" />
+9-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:5:5-67
+11-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:5:22-64
+12    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+12-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:6:5-79
+12-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:6:22-76
+13
+14    <application
+14-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:8:5-31:19
+15        android:name="com.myinfosysprogram.MyApplication"
+15-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:8:18-47
+16        android:allowBackup="true"
+16-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:9:9-35
+17        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+17-->[androidx.core:core:1.2.0] C:\Users\sangeeta\.gradle\caches\transforms-2\files-2.1\163ba80aa74cf2b66a97b31641e8ba82\core-1.2.0\AndroidManifest.xml:24:18-86
+18        android:debuggable="true"
+19        android:icon="@mipmap/ic_launcher"
+19-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:10:9-43
+20        android:label="@string/app_name"
+20-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:11:9-41
+21        android:roundIcon="@mipmap/ic_launcher_round"
+21-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:12:9-54
+22        android:supportsRtl="true"
+22-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:13:9-35
+23        android:testOnly="true"
+24        android:theme="@style/AppTheme" >
+24-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:14:9-40
+25        <activity
+25-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:16:9-26:20
+26            android:name="com.myinfosysprogram.ui.splash.SplashActivity"
+26-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:17:13-53
+27            android:configChanges="orientation|screenSize|keyboardHidden"
+27-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:20:13-74
+28            android:label="@string/app_name"
+28-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:18:13-45
+29            android:theme="@style/AppTheme.NoActionBar" >
+29-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:19:13-56
+30            <intent-filter>
+30-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:21:13-25:29
+31                <action android:name="android.intent.action.MAIN" />
+31-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:22:17-69
+31-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:22:25-66
+32
+33                <category android:name="android.intent.category.LAUNCHER" />
+33-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:24:17-77
+33-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:24:27-74
+34            </intent-filter>
+35        </activity>
+36        <activity
+36-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:28:9-30:76
+37            android:name="com.myinfosysprogram.ui.home.MainActivity"
+37-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:28:19-55
+38            android:configChanges="orientation|screenSize|keyboardHidden"
+38-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:30:13-74
+39            android:theme="@style/AppTheme.NoActionBar" />
+39-->C:\Android\MyInfosysProgram\app\src\main\AndroidManifest.xml:29:13-56
+40    </application>
+41
+42</manifest>

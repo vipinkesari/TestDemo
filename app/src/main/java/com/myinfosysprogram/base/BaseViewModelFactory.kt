@@ -1,4 +1,4 @@
-package com.desire.talenthunt.base
+package com.myinfosysprogram.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
