@@ -8,12 +8,11 @@ import com.myinfosysprogram.constants.AppConstants
 import com.myinfosysprogram.model.response.ListResponse
 import com.myinfosysprogram.model.response.Rows
 
-@Database(entities = [ListResponse::class, Rows::class], version = 1)
+@Database(entities = [ListResponse::class, Rows::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun titleDao(): TitleDao
     abstract fun rowsDao(): RowsDao
 
-    companion object {
+    /*companion object {
         var INSTANCE: AppDatabase? = null
 
         fun getAppDataBase(context: Context): AppDatabase? {
@@ -28,5 +27,5 @@ abstract class AppDatabase : RoomDatabase() {
         fun destroyDataBase(){
             INSTANCE = null
         }
-    }
+    }*/
 }

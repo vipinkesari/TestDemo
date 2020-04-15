@@ -31,6 +31,9 @@ class HomeFragment : BaseFragment() {
 
     lateinit var listObserver: Observer<Resource<ListResponse>>
     lateinit var refreshUIObserver: Observer<Boolean>
+    lateinit var updateListObserver: Observer<List<Rows>>
+    lateinit var updateTitleObserver: Observer<List<ListResponse>>
+
     lateinit var mAdapter: ListDataAdapter
     var listRes: ArrayList<Rows> = arrayListOf();
 
@@ -54,12 +57,18 @@ class HomeFragment : BaseFragment() {
     private fun initUI() {
         communicatorViewModel =
             ViewModelProvider(requireActivity()).get(HomeCommunicatorViewModel::class.java)
-        progressBar.visibility = View.GONE
+
         homeSwipeRefreshView.setOnRefreshListener {
             homeSwipeRefreshView.isRefreshing = false
-            verifyAvailableNetwork(requireContext(), homeParentLyt)
-            getList()
+            if (verifyAvailableNetwork(requireContext(), homeParentLyt))
+                getList()
+            else {
+                getDatafromDB()
+            }
         }
+
+        progressBar.visibility = View.GONE
+        noDataMsgTv.visibility = View.GONE
 
         initObserver()
         initAdapter();
@@ -71,7 +80,7 @@ class HomeFragment : BaseFragment() {
         homeSwipeRefreshView.isRefreshing = false
         val request = GeneralRequest()
         listViewModel.getGeneralMutableRequest(request)
-        listViewModel.listResponseLiveData.observe(viewLifecycleOwner, listObserver)
+        listViewModel.getListResponse().observe(viewLifecycleOwner, listObserver)
 
     }
 
@@ -80,8 +89,10 @@ class HomeFragment : BaseFragment() {
         mAdapter = ListDataAdapter(listRes, requireContext())
         homeRv.adapter = mAdapter
 
-        verifyAvailableNetwork(requireContext(), homeParentLyt)
-        getList()
+        if (verifyAvailableNetwork(requireContext(), homeParentLyt))
+            getList()
+        else
+            getDatafromDB()
     }
 
     /* this fun defines the observer of the current view model used in fragment */
@@ -110,29 +121,78 @@ class HomeFragment : BaseFragment() {
                 }
                 mAdapter.notifyDataSetChanged()
 
+                /* check DB work */
+                updateDataIntoTable(title)
+
+                progressBar.visibility = View.GONE
+                homeSwipeRefreshView.isRefreshing = false
+
+                if (listRes.isEmpty()) {
+                    noDataMsgTv.visibility = View.VISIBLE
+                } else {
+                    noDataMsgTv.visibility = View.GONE
+                }
             }
 
-            progressBar.visibility = View.GONE
-            homeSwipeRefreshView.isRefreshing = false
 
-            if (listRes.isEmpty()) {
-                noDataMsgTv.visibility = View.VISIBLE
-            } else {
-                noDataMsgTv.visibility = View.GONE
-            }
         }
 
         /* this observer is refresh the api data if network is connected */
         refreshUIObserver = Observer {
-            (verifyAvailableNetwork(requireContext(), homeParentLyt))
-            homeSwipeRefreshView.isRefreshing = true
-            getList()
+            if ((verifyAvailableNetwork(requireContext(), homeParentLyt))) {
+                homeSwipeRefreshView.isRefreshing = true
+                getList()
+            } else {
+                getDatafromDB()
+            }
 
         }
+
+        updateTitleObserver = Observer {
+            if (it != null && it.isNotEmpty()) {
+                communicatorViewModel.updateTitle(it.get(0).title)
+            }
+        }
+
+        updateListObserver = Observer {
+            if (it != null && it.isNotEmpty()) {
+                if (listRes.isNotEmpty())
+                    listRes.clear()
+
+                listRes.addAll(it)
+                mAdapter.notifyDataSetChanged()
+
+            } else {
+                if (listRes.isEmpty()) {
+                    noDataMsgTv.visibility = View.VISIBLE
+                } else {
+                    noDataMsgTv.visibility = View.GONE
+                }
+            }
+        }
+
         communicatorViewModel.refreshUIMutableLiveData.observe(
             viewLifecycleOwner,
             refreshUIObserver
         )
+
+        listViewModel.updateTitleFromDBResponse().observe(
+            viewLifecycleOwner,
+            updateTitleObserver
+        )
+
+        listViewModel.updateListFromDBResonse().observe(
+            viewLifecycleOwner,
+            updateListObserver
+        )
+    }
+
+    fun getDatafromDB() {
+        listViewModel.getRowsData()
+    }
+
+    fun updateDataIntoTable(title: String) {
+        listViewModel.updateDatabase(listRes, title)
     }
 
 }
