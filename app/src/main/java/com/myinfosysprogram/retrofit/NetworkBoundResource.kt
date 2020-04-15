@@ -14,11 +14,11 @@ abstract class NetworkBoundResource<ResultType, RequestType> @MainThread protect
         MediatorLiveData<Resource<ResultType>>()
     private val appService: RetrofitService? = null
     private fun setNetworkBoundResource() {
-        result.setValue(
+        result.value = (
             Resource.loading<Any>(
                 null,
                 ApiConstants.ZERO_STATUS_CODE
-            ) as Resource<ResultType>
+            ) as? Resource<ResultType>
         )
         val dbSource = loadFromDb()
         result.addSource(dbSource) { data: ResultType ->

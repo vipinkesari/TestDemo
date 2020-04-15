@@ -14,10 +14,8 @@
 
             <TextView
                 android:id="@+id/titleTv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/Item_TextViewStyle"
                 android:hint="@string/hint_title"
-                android:textAppearance="?attr/textAppearanceHeadline6"
                 android:textSize="@dimen/sp_20" />
 
             <RelativeLayout
@@ -27,12 +25,9 @@
 
                 <TextView
                     android:id="@+id/descTv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/Item_TextViewStyle"
                     android:layout_toLeftOf="@+id/newsIv"
-                    android:hint="@string/hint_desc"
-                    android:textAppearance="?attr/textAppearanceHeadline6"
-                    android:textSize="@dimen/sp_15" />
+                    android:hint="@string/hint_desc" />
 
                 <ImageView
                     android:id="@+id/newsIv"
@@ -42,8 +37,6 @@
                     android:layout_marginLeft="@dimen/dp_10"
                     android:src="@drawable/placeholder" />
             </RelativeLayout>
-
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
 </layout>

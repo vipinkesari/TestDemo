@@ -41,13 +41,10 @@ fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         .build()
 
     return retrofit
-    // return Retrofit.Builder().baseUrl(ApiConstants.BASE_URL).client(okHttpClient)
-    //.addConverterFactory(GsonConverterFactory.create()).build()
 }
 
 fun provideOkHttpClient(ctx: Context, authInterceptor: AuthInterceptor): OkHttpClient {
     val httpClient = OkHttpClient().newBuilder()
-        //.addInterceptor(LastFmRequestInterceptor(apiKey, cacheDuration))
         .addInterceptor(authInterceptor)
         .addInterceptor(HttpLoggingInterceptor().apply {
             level =
@@ -57,10 +54,8 @@ fun provideOkHttpClient(ctx: Context, authInterceptor: AuthInterceptor): OkHttpC
         .connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
 
-    if (ctx != null) {
-        val myCache = Cache(ctx!!.cacheDir, (5 * 12024 * 104).toLong())
-        httpClient.cache(myCache)
-    }
+    val myCache = Cache(ctx.cacheDir, (5 * 12024 * 104).toLong())
+    httpClient.cache(myCache)
 
     httpClient.build()
     return OkHttpClient().newBuilder().addInterceptor(authInterceptor).build()
@@ -72,34 +67,23 @@ fun provideRetrofitApi(retrofit: Retrofit): RetrofitService =
 
 class AuthInterceptor(private val ctx: Context) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-//        var req = chain.request()
-//        val url = req.url().newBuilder().addQueryParameter("APPID", "your_key_here").build()
-//        req = req.newBuilder().url(url).build()
-//        return chain.proceed(req)
-
-
         var response: Response
 
         /* for cache result */
-        if (ctx != null) {
-            var request = chain.request().newBuilder()
-            request = if (verifyAvailableNetwork(ctx!!, null))
-                request.header("Cache-Control", "public, max-age=" + 5)
-            else
-                request.header(
-                    "Cache-Control",
-                    "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7
-                )
+        var request = chain.request().newBuilder()
+        //if (ctx != null) {
+        request = if (verifyAvailableNetwork(ctx, null))
+            request.header("Cache-Control", "public, max-age=" + 5)
+        else
+            request.header(
+                "Cache-Control",
+                "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7
+            )
 
-            request.addHeader("Authorization", "authKey")
-            response = chain.proceed(request.build())
-        } else {
-            /* for non cache */
-            val builder = chain.request().newBuilder()
-            //builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
-            builder.addHeader("Authorization", "authKey")
-            response = chain.proceed(builder.build())
-        }
+
+        //}
+        request.addHeader("Authorization", "authKey")
+        response = chain.proceed(request.build())
 
         /* check for forbidden */
         if (isForbidden(response.code)) {
