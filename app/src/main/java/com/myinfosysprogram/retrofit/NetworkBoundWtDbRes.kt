@@ -20,7 +20,7 @@ abstract class NetworkBoundWtDbRes<ResultType, RequestType> @MainThread protecte
             Resource.loading<Any>(
                 null,
                 ApiConstants.ZERO_STATUS_CODE
-            ) as Resource<ResultType>
+            ) as? Resource<ResultType>
         )
         val resultTypeLiveData: LiveData<ResultType> =
             AbsentLiveData.create()
