@@ -57,8 +57,8 @@ class HomeFragment : BaseFragment() {
         progressBar.visibility = View.GONE
         homeSwipeRefreshView.setOnRefreshListener {
             homeSwipeRefreshView.isRefreshing = false
-            if (verifyAvailableNetwork(requireContext(), homeParentLyt))
-                getList()
+            verifyAvailableNetwork(requireContext(), homeParentLyt)
+            getList()
         }
 
         initObserver()
@@ -68,9 +68,9 @@ class HomeFragment : BaseFragment() {
     /* method to communicate with view model to fetch the list from server */
     private fun getList() {
         progressBar.visibility = View.VISIBLE
+        homeSwipeRefreshView.isRefreshing = false
         val request = GeneralRequest()
         listViewModel.getGeneralMutableRequest(request)
-        homeSwipeRefreshView.isRefreshing = false
         listViewModel.listResponseLiveData.observe(viewLifecycleOwner, listObserver)
 
     }
@@ -90,7 +90,7 @@ class HomeFragment : BaseFragment() {
             if (it.Success && it.data != null) {
                 val listResponse: ListResponse? = it.data as ListResponse
 
-                if (!listRes.isEmpty())
+                if (listRes.isNotEmpty())
                     listRes.clear()
 
                 var title = listResponse?.title ?: ""
@@ -108,17 +108,26 @@ class HomeFragment : BaseFragment() {
                     listRes.addAll(listResponse!!.rows!!)
                     noDataMsgTv.visibility = View.GONE
                 }
-
                 mAdapter.notifyDataSetChanged()
+
             }
+
             progressBar.visibility = View.GONE
+            homeSwipeRefreshView.isRefreshing = false
+
+            if (listRes.isEmpty()) {
+                noDataMsgTv.visibility = View.VISIBLE
+            } else {
+                noDataMsgTv.visibility = View.GONE
+            }
         }
 
         /* this observer is refresh the api data if network is connected */
         refreshUIObserver = Observer {
+            (verifyAvailableNetwork(requireContext(), homeParentLyt))
             homeSwipeRefreshView.isRefreshing = true
-            if (verifyAvailableNetwork(requireContext(), homeParentLyt))
-                getList()
+            getList()
+
         }
         communicatorViewModel.refreshUIMutableLiveData.observe(
             viewLifecycleOwner,
