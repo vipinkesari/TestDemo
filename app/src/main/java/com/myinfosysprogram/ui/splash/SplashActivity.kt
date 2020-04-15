@@ -3,16 +3,20 @@ package com.myinfosysprogram.ui.splash
 import android.content.Intent
 import com.myinfosysprogram.R
 import com.myinfosysprogram.base.BaseActivity
+import com.myinfosysprogram.constants.AppConstants
 import com.myinfosysprogram.constants.AppConstants.Companion.TIMEOUT_SPLASH
+import com.myinfosysprogram.prefrences.Prefrences
 import com.myinfosysprogram.ui.home.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 
 class SplashActivity : BaseActivity() {
 
     private var isRunning: Boolean = false
+    private val preferences: Prefrences by inject()
 
     override fun getLayoutId(): Int {
         return R.layout.activity_splash
@@ -20,6 +24,12 @@ class SplashActivity : BaseActivity() {
 
     /* init the block of code */
     override fun initUI() {
+
+        preferences.setBooleanData(AppConstants.KEY_HIDE_SPLASH, true)
+
+        // if(preferences.getBooleanData(AppConstants.KEY_HIDE_SPLASH))
+        //  moveToHome()
+
         // Start a coroutine
         CoroutineScope(Dispatchers.Main).launch {
             delay(TIMEOUT_SPLASH)

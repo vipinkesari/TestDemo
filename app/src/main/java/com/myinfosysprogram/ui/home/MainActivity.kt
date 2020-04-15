@@ -1,26 +1,22 @@
 package com.myinfosysprogram.ui.home
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.myinfosysprogram.R
 import com.myinfosysprogram.base.BaseActivity
-import com.myinfosysprogram.model.response.ListResponse
-import com.myinfosysprogram.retrofit.Resource
-import com.myinfosysprogram.utils.showShackBarMsg
+import com.myinfosysprogram.viewModel.HomeCommunicatorViewModel
 import com.myinfosysprogram.viewModel.ListViewModel
-
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_home.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity() {
 
-    lateinit var listViewModel: ListViewModel
+    lateinit var communicatorViewModel: HomeCommunicatorViewModel
+
+    val listViewModel: ListViewModel by viewModel()
     lateinit var titleObserver: Observer<String>
 
     override fun getLayoutId(): Int {
@@ -28,7 +24,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initUI() {
-        listViewModel = ViewModelProvider(this).get(ListViewModel::class.java)
+        communicatorViewModel = ViewModelProvider(this).get(HomeCommunicatorViewModel::class.java)
 
         setSupportActionBar(toolbar)
         manageToolbar(this.resources.getString(R.string.app_name))
@@ -41,14 +37,16 @@ class MainActivity : BaseActivity() {
                 manageToolbar(it)
         }
 
-        listViewModel.titleUpdateMutableLiveData.observe(this, titleObserver)
+        communicatorViewModel.titleUpdateMutableLiveData.observe(this, titleObserver)
     }
 
+    /* this fun is used to update the title of action bar*/
     private fun manageToolbar(title: String) {
         val actionBar = supportActionBar
         actionBar!!.title = title
         cacheDir
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -72,9 +70,9 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    /* update the fragment which observe the perticular mutable in active state */
-    private fun refreshHomeScreen(){
-        listViewModel.refreshHomeUI()
+    /* update the fragment which observe of view model is in active state */
+    private fun refreshHomeScreen() {
+        communicatorViewModel.refreshHomeUI()
     }
 
 }

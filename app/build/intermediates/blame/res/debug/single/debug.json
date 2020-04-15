@@ -40,6 +40,10 @@
         "source": "C:\\Android\\MyInfosysProgram\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher.png"
     },
     {
+        "merged": "C:\\Android\\MyInfosysProgram\\app\\build\\intermediates\\res\\merged\\debug\\drawable_placeholder.png.flat",
+        "source": "C:\\Android\\MyInfosysProgram\\app\\src\\main\\res\\drawable\\placeholder.png"
+    },
+    {
         "merged": "C:\\Android\\MyInfosysProgram\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi_ic_launcher_round.png.flat",
         "source": "C:\\Android\\MyInfosysProgram\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher_round.png"
     },

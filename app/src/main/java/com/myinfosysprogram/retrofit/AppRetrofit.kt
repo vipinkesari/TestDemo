@@ -47,7 +47,6 @@ object AppRetrofit {
     }
 
     private  fun makeRetrofitService(): RetrofitService {
-
         val mBaseUrl = BASE_URL
         val cacheSize = (5*12024*104).toLong()
 
@@ -89,6 +88,7 @@ object AppRetrofit {
                 return response
             }
         }
+
         val httpClient = OkHttpClient().newBuilder()
             //.addInterceptor(LastFmRequestInterceptor(apiKey, cacheDuration))
             .addInterceptor(headerInterceptor)
@@ -106,7 +106,6 @@ object AppRetrofit {
         }
 
         httpClient.build()
-
 
         val retrofit = Retrofit.Builder()
             .baseUrl(mBaseUrl)

@@ -48,12 +48,16 @@ class ListDataAdapter( private val item: ArrayList<Rows>, context: Context ):
             itemHomeRvBinding.descTv.text = (res.description)
 
             if(res.imageHref != null) {
+                itemHomeRvBinding.newsIv.visibility = View.VISIBLE
                 var imgPath = res.imageHref
 
                 if (imgPath.contains("http:"))
                     imgPath = imgPath.replace("http", "https")
+
                 if (ctx != null) {
-                    Glide.with(ctx).load(imgPath).into(itemHomeRvBinding.newsIv)
+                    Glide.with(ctx).load(imgPath).placeholder(R.drawable.placeholder).into(itemHomeRvBinding.newsIv)
+                }else{
+                    itemHomeRvBinding.newsIv.visibility = View.GONE
                 }
             }else{
                 itemHomeRvBinding.newsIv.visibility = View.GONE

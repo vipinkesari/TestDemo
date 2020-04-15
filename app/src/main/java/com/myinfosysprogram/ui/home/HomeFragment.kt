@@ -16,15 +16,19 @@ import com.myinfosysprogram.model.response.Rows
 import com.myinfosysprogram.retrofit.Resource
 import com.myinfosysprogram.utils.showShackBarMsg
 import com.myinfosysprogram.utils.verifyAvailableNetwork
+import com.myinfosysprogram.viewModel.HomeCommunicatorViewModel
 import com.myinfosysprogram.viewModel.ListViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
- * A simple [Fragment] subclass as the default destination in the navigation.
+ * A simple [HomeFragment] subclass as the default destination in the navigation.
  */
 class HomeFragment : BaseFragment() {
 
-    lateinit var listViewModel: ListViewModel
+    lateinit var communicatorViewModel: HomeCommunicatorViewModel
+    val listViewModel: ListViewModel by viewModel()
+
     lateinit var listObserver: Observer<Resource<ListResponse>>
     lateinit var refreshUIObserver: Observer<Boolean>
     lateinit var mAdapter: ListDataAdapter
@@ -47,9 +51,8 @@ class HomeFragment : BaseFragment() {
         initUI();
     }
 
-
     private fun initUI() {
-        listViewModel = ViewModelProvider(requireActivity()).get(ListViewModel::class.java)
+        communicatorViewModel = ViewModelProvider(requireActivity()).get(HomeCommunicatorViewModel::class.java)
         progressBar.visibility = View.GONE
         homeSwipeRefreshView.setOnRefreshListener {
             homeSwipeRefreshView.isRefreshing = false
@@ -61,16 +64,17 @@ class HomeFragment : BaseFragment() {
         initAdapter();
     }
 
-
-
+    /* method to communicate with view model to fetch the list from server */
     private fun getList() {
-
         progressBar.visibility = View.VISIBLE
         var request = GeneralRequest()
         listViewModel.getGeneralMutableRequest(request)
+        homeSwipeRefreshView.isRefreshing = false
         listViewModel.listResponseLiveData.observe(viewLifecycleOwner, listObserver)
+
     }
 
+    /* adapter is initialise to show data using RV*/
     private fun initAdapter() {
         mAdapter = ListDataAdapter(listRes, requireContext())
         homeRv.adapter = mAdapter
@@ -79,6 +83,7 @@ class HomeFragment : BaseFragment() {
         getList()
     }
 
+    /* this fun defines the observer of the current view model used in fragment */
     private fun initObserver() {
         listObserver = Observer {
             if (it.Success && it.data != null) {
@@ -88,7 +93,7 @@ class HomeFragment : BaseFragment() {
                     listRes.clear()
 
                 if (listResponse.title != null) {
-                    listViewModel.updateTitle(listResponse.title)
+                    communicatorViewModel.updateTitle(listResponse.title)
                 }
 
                 if (listResponse.rows == null) {
@@ -113,12 +118,13 @@ class HomeFragment : BaseFragment() {
             progressBar.visibility = View.GONE
         }
 
+        /* this observer is refresh the api data if network is connected */
         refreshUIObserver = Observer {
-            homeSwipeRefreshView.isRefreshing = false
+            homeSwipeRefreshView.isRefreshing = true
             if (verifyAvailableNetwork(requireContext(), homeParentLyt))
                 getList()
         }
-        listViewModel.refreshUIMutableLiveData.observe(viewLifecycleOwner, refreshUIObserver)
+        communicatorViewModel.refreshUIMutableLiveData.observe(viewLifecycleOwner, refreshUIObserver)
     }
 
 }
