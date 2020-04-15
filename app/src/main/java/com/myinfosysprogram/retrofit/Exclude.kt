@@ -1,8 +1,5 @@
 package com.myinfosysprogram.retrofit
 
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
-
-@Retention(RetentionPolicy.RUNTIME)
+@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FIELD)
 annotation class Exclude

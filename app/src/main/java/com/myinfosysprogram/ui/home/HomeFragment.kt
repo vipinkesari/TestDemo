@@ -1,10 +1,10 @@
 package com.myinfosysprogram.ui.home
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.myinfosysprogram.R
@@ -52,7 +52,8 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun initUI() {
-        communicatorViewModel = ViewModelProvider(requireActivity()).get(HomeCommunicatorViewModel::class.java)
+        communicatorViewModel =
+            ViewModelProvider(requireActivity()).get(HomeCommunicatorViewModel::class.java)
         progressBar.visibility = View.GONE
         homeSwipeRefreshView.setOnRefreshListener {
             homeSwipeRefreshView.isRefreshing = false
@@ -67,7 +68,7 @@ class HomeFragment : BaseFragment() {
     /* method to communicate with view model to fetch the list from server */
     private fun getList() {
         progressBar.visibility = View.VISIBLE
-        var request = GeneralRequest()
+        val request = GeneralRequest()
         listViewModel.getGeneralMutableRequest(request)
         homeSwipeRefreshView.isRefreshing = false
         listViewModel.listResponseLiveData.observe(viewLifecycleOwner, listObserver)
@@ -87,33 +88,28 @@ class HomeFragment : BaseFragment() {
     private fun initObserver() {
         listObserver = Observer {
             if (it.Success && it.data != null) {
-                val listResponse: ListResponse = it.data as ListResponse
+                val listResponse: ListResponse? = it.data as ListResponse
 
-                if (listRes?.size > 0)
+                if (!listRes.isEmpty())
                     listRes.clear()
 
-                if (listResponse.title != null) {
-                    communicatorViewModel.updateTitle(listResponse.title)
+                var title = listResponse?.title ?: ""
+                if (!TextUtils.isEmpty(title)) {
+                    communicatorViewModel.updateTitle(title)
                 }
 
-                if (listResponse.rows == null) {
+                if (listResponse?.rows?.isEmpty() ?: true) {
                     showShackBarMsg(
                         homeParentLyt,
-                        requireActivity().resources.getString(R.string.msg_no_internet)
+                        requireActivity().resources.getString(R.string.msg_no_data)
                     )
+                    noDataMsgTv.visibility = View.VISIBLE
                 } else {
-                    if (listResponse.rows?.size > 0) {
-                        listRes.addAll(listResponse.rows)
-                    } else {
-                        showShackBarMsg(
-                            homeParentLyt,
-                            requireActivity().resources.getString(R.string.msg_no_data)
-                        )
-                    }
-
-                    if (mAdapter != null)
-                        mAdapter.notifyDataSetChanged()
+                    listRes.addAll(listResponse!!.rows!!)
+                    noDataMsgTv.visibility = View.GONE
                 }
+
+                mAdapter.notifyDataSetChanged()
             }
             progressBar.visibility = View.GONE
         }
@@ -124,7 +120,10 @@ class HomeFragment : BaseFragment() {
             if (verifyAvailableNetwork(requireContext(), homeParentLyt))
                 getList()
         }
-        communicatorViewModel.refreshUIMutableLiveData.observe(viewLifecycleOwner, refreshUIObserver)
+        communicatorViewModel.refreshUIMutableLiveData.observe(
+            viewLifecycleOwner,
+            refreshUIObserver
+        )
     }
 
 }

@@ -7,7 +7,8 @@
     android:background="@color/color_white"
     tools:context=".ui.home.HomeFragment">
 
-    <FrameLayout android:id="@+id/homeParentLyt"
+    <FrameLayout
+        android:id="@+id/homeParentLyt"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -26,12 +27,19 @@
                 tools:listitem="@layout/item_home_rv" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+        <TextView
+            android:id="@+id/noDataMsgTv"
+            style="@style/TextViewStyle"
+            android:layout_gravity="center"
+            android:text="@string/msg_no_data"
+            android:visibility="gone" />
+
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            tools:visibility="visible" />
+            android:visibility="gone" />
 
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
