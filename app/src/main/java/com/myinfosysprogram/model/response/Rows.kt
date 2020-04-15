@@ -1,7 +1,13 @@
 package com.myinfosysprogram.model.response
 
-class Rows  {
-    var title  = ""
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+
+@Entity (tableName = "list_rows")
+class Rows {
+    var title = ""
     var description = ""
-    var imageHref : String? =""
+
+    @ColumnInfo(name = "image_href")
+    var imageHref: String? = ""
 }
