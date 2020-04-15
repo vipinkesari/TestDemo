@@ -30,18 +30,15 @@ object AppRetrofit {
     }
 
     fun getInstance(): RetrofitService {
-        if (mInstance == null)
+        /*if (mInstance == null)
             mInstance =
-                makeRetrofitService()
+                makeRetrofitService()*/
 
         ctx = MyApplication.getAppContext()
         return mInstance
     }
 
     fun getInstance(context : Context?): RetrofitService {
-        if (mInstance == null)
-            mInstance =
-                makeRetrofitService();
         ctx = context
         return mInstance
     }
