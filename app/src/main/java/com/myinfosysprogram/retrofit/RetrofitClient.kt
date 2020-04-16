@@ -26,7 +26,7 @@ val networkModule = module {
 }
 
 fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
-    val retrofit = Retrofit.Builder()
+    return Retrofit.Builder()
         .baseUrl(ApiConstants.BASE_URL)
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
@@ -40,7 +40,6 @@ fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         .addCallAdapterFactory(LiveDataCallAdapterFactory())
         .build()
 
-    return retrofit
 }
 
 fun provideOkHttpClient(ctx: Context, authInterceptor: AuthInterceptor): OkHttpClient {

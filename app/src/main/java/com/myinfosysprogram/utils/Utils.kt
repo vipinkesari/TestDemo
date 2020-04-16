@@ -17,20 +17,20 @@ fun verifyAvailableNetwork(context: Context, view: View?): Boolean {
 
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
         val networkInfo = connectivityManager.activeNetworkInfo
-        var result = networkInfo != null && networkInfo.isConnected
+        val result = networkInfo != null && networkInfo.isConnected
 
         if (!result && view != null)
             showShackBarMsg(view, context.resources.getString(R.string.msg_no_internet))
 
-        return result;
+        return result
     } else {
         val network = connectivityManager.allNetworks
-        var hasNetwork: Boolean = false
+        var hasNetwork = false
 
         if (network.isNotEmpty()) {
             for (item in network) {
                 val networkCapabilities = connectivityManager.getNetworkCapabilities(item)
-                if (networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET))
+                if (networkCapabilities!!.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET))
                     hasNetwork = true
             }
         }
@@ -46,7 +46,4 @@ fun showShackBarMsg(view: View, msg: String) {
     Snackbar.make(view, msg, Snackbar.LENGTH_LONG).show()
 }
 
-fun showToastMsg(activity: Activity, msg: String) {
-    Toast.makeText(activity, msg, Toast.LENGTH_LONG).show()
-}
 

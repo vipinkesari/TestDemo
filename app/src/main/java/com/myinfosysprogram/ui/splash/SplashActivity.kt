@@ -39,9 +39,9 @@ class SplashActivity : BaseActivity() {
     }
 
     /* suspend fun for move from splash screen to home screen */
-    suspend fun moveToHome() {
+    private fun moveToHome() {
         if (isRunning) {
-            var mIntent = Intent(this, MainActivity::class.java)
+            val mIntent = Intent(this, MainActivity::class.java)
             intent.flags = (Intent.FLAG_ACTIVITY_SINGLE_TOP)
             startActivity(mIntent)
         }

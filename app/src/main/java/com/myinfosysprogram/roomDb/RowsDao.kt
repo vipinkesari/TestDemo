@@ -1,9 +1,11 @@
 package com.myinfosysprogram.roomDb
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.myinfosysprogram.model.response.ListResponse
 import com.myinfosysprogram.model.response.Rows
-import kotlinx.coroutines.Deferred
 
 @Dao
 interface RowsDao {
@@ -21,7 +23,7 @@ interface RowsDao {
     suspend fun nukeUserTable()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend  fun insertTitle(title: ListResponse)
+    suspend fun insertTitle(title: ListResponse)
 
     @Query("Select * from ListResponse")
     fun getTitle(): List<ListResponse>

@@ -1,28 +1,28 @@
 package com.myinfosysprogram.retrofit
 
-class Resource<T> {
+class Resource<T>(
+    mStatus: Status,
+    mDdata: T?,
+    mMessage: String?,
+    mCcode: Int,
+    mSuccess: Boolean
+) {
     var status: Status? = null
 
     var message: String? = null
 
-    var Success = false
+    var success = false
 
     var data: T? = null
 
     var code = 0
 
-    constructor(
-        mStatus: Status,
-        mDdata: T?,
-        mMessage: String?,
-        mCcode: Int,
-        mSuccess: Boolean
-    ) {
+    init {
         status = mStatus
         data = mDdata
         message = mMessage
         code = mCcode
-        Success = mSuccess
+        success = mSuccess
     }
 
     companion object {
