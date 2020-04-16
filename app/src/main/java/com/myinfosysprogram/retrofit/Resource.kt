@@ -15,7 +15,7 @@ class Resource<T>(
 
     var data: T? = null
 
-    var code = 0
+    private var code = 0
 
     init {
         status = mStatus
