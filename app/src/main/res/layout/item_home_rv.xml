@@ -27,14 +27,18 @@
                     android:id="@+id/descTv"
                     style="@style/Item_TextViewStyle"
                     android:layout_toLeftOf="@+id/newsIv"
+                    android:layout_toStartOf="@+id/newsIv"
                     android:hint="@string/hint_desc" />
 
                 <ImageView
                     android:id="@+id/newsIv"
                     android:layout_width="@dimen/thumb_image_size"
                     android:layout_height="@dimen/thumb_image_size"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
+                    android:layout_marginStart="@dimen/dp_10"
                     android:layout_marginLeft="@dimen/dp_10"
+                    android:contentDescription="@string/app_name"
                     android:src="@drawable/placeholder" />
             </RelativeLayout>
         </LinearLayout>

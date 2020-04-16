@@ -6,15 +6,9 @@ import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
 class AppExecutors {
-    private var mDiskIO: Executor
-    private var mNetworkIO: Executor
-    private var mMainThread: Executor
-
-    constructor(){
-        mDiskIO = Executors.newSingleThreadExecutor()
-        mNetworkIO = Executors.newFixedThreadPool(3)
-        mMainThread = MainThreadExecutor()
-    }
+    private var mDiskIO: Executor = Executors.newSingleThreadExecutor()
+    private var mNetworkIO: Executor = Executors.newFixedThreadPool(3)
+    private var mMainThread: Executor = MainThreadExecutor()
 
     /*constructor (diskIO: Executor, networkIO: Executor, mainThread: Executor) {
         mDiskIO = diskIO
@@ -33,15 +27,15 @@ class AppExecutors {
         }
     }
 
-    fun diskIO(): Executor {
+    /*fun diskIO(): Executor {
         return mDiskIO
-    }
+    }*/
 
    /* fun networkIO(): Executor {
         return mNetworkIO
     }*/
 
-    fun mainThreadIO(): Executor {
+    /*fun mainThreadIO(): Executor {
         return mMainThread
-    }
+    }*/
 }

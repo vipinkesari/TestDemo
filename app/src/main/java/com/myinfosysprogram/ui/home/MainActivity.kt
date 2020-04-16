@@ -7,9 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.myinfosysprogram.R
 import com.myinfosysprogram.base.BaseActivity
 import com.myinfosysprogram.viewModel.HomeCommunicatorViewModel
-import com.myinfosysprogram.viewModel.ListViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity() {
 

@@ -1,12 +1,10 @@
 package com.myinfosysprogram.utils
 
-import android.app.Activity
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.view.View
-import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import com.myinfosysprogram.R
 
