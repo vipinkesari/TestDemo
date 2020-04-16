@@ -786,10 +786,8 @@ color bright_foreground_inverse_material_dark
 color bright_foreground_inverse_material_light
 color bright_foreground_material_dark
 color bright_foreground_material_light
-color button_background_color
 color button_material_dark
 color button_material_light
-color button_text_color
 color cardview_dark_background
 color cardview_light_background
 color cardview_shadow_end_color
@@ -947,8 +945,6 @@ color switch_thumb_normal_material_dark
 color switch_thumb_normal_material_light
 color test_mtrl_calendar_day
 color test_mtrl_calendar_day_selected
-color text_color
-color text_hint_color
 color tooltip_background_dark
 color tooltip_background_light
 dimen abc_action_bar_content_inset_material
@@ -1031,7 +1027,6 @@ dimen abc_text_size_title_material
 dimen abc_text_size_title_material_toolbar
 dimen action_bar_size
 dimen appcompat_dialog_background_inset
-dimen big_image_size
 dimen cardview_compat_inset_shadow
 dimen cardview_default_elevation
 dimen cardview_default_radius
@@ -1092,12 +1087,6 @@ dimen design_textinput_caption_translate_y
 dimen disabled_alpha_material_dark
 dimen disabled_alpha_material_light
 dimen dp_10
-dimen dp_15
-dimen dp_20
-dimen dp_25
-dimen dp_30
-dimen dp_5
-dimen fab_margin
 dimen fastscroll_default_thickness
 dimen fastscroll_margin
 dimen fastscroll_minimum_range
@@ -1276,15 +1265,9 @@ dimen notification_small_icon_size_as_large
 dimen notification_subtext_size
 dimen notification_top_pad
 dimen notification_top_pad_large_text
-dimen sp_10
-dimen sp_12
 dimen sp_15
-dimen sp_18
 dimen sp_20
-dimen sp_22
 dimen sp_25
-dimen sp_30
-dimen sp_5
 dimen test_mtrl_calendar_day_cornerSize
 dimen thumb_image_size
 dimen tooltip_corner_radius

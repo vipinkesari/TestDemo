@@ -38,7 +38,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginStart="@dimen/dp_10"
                     android:layout_marginLeft="@dimen/dp_10"
-                    android:contentDescription="@string/app_name"
+                    android:contentDescription="@string/iv_desc"
                     android:src="@drawable/placeholder" />
             </RelativeLayout>
         </LinearLayout>
