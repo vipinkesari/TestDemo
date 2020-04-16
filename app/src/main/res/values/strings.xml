@@ -9,5 +9,4 @@
     <string name="msg_no_internet">Please check your internet connection.</string>
     <string name="msg_no_data">No data found.</string>
     <string name="home_fragment_label">Home Fragment</string>
-
 </resources>

@@ -2,14 +2,14 @@ package com.myinfosysprogram.retrofit
 
 class Resource<T>(
     mStatus: Status,
-    mDdata: T?,
+    mData: T?,
     mMessage: String?,
-    mCcode: Int,
+    mCode: Int,
     mSuccess: Boolean
 ) {
-    var status: Status? = null
+    private var status: Status? = null
 
-    var message: String? = null
+    private var message: String? = null
 
     var success = false
 
@@ -19,9 +19,9 @@ class Resource<T>(
 
     init {
         status = mStatus
-        data = mDdata
+        data = mData
         message = mMessage
-        code = mCcode
+        code = mCode
         success = mSuccess
     }
 

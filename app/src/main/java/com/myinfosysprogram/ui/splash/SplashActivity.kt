@@ -6,7 +6,7 @@ import com.myinfosysprogram.base.BaseActivity
 import com.myinfosysprogram.constants.AppConstants
 import com.myinfosysprogram.constants.AppConstants.Companion.TIMEOUT_SHORT_SPLASH
 import com.myinfosysprogram.constants.AppConstants.Companion.TIMEOUT_SPLASH
-import com.myinfosysprogram.prefrences.Prefrences
+import com.myinfosysprogram.prefrences.Preferences
 import com.myinfosysprogram.ui.home.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +17,7 @@ import org.koin.android.ext.android.inject
 class SplashActivity : BaseActivity() {
 
     private var isRunning: Boolean = false
-    private val preferences: Prefrences by inject()
+    private val preferences: Preferences by inject()
 
     override fun getLayoutId(): Int {
         return R.layout.activity_splash
@@ -59,5 +59,4 @@ class SplashActivity : BaseActivity() {
         super.onPause()
         isRunning = false
     }
-
 }
