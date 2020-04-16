@@ -25,14 +25,15 @@ class SplashActivity : BaseActivity() {
     /* init the block of code */
     override fun initUI() {
 
-        preferences.setBooleanData(AppConstants.KEY_HIDE_SPLASH, true)
+       if(preferences.getBooleanData(AppConstants.KEY_HIDE_SPLASH)) {
+           CoroutineScope(Dispatchers.Main).launch {
+               moveToHome()
+           }
+       }
 
-        // if(preferences.getBooleanData(AppConstants.KEY_HIDE_SPLASH))
-        //  moveToHome()
-
-        // Start a coroutine
         CoroutineScope(Dispatchers.Main).launch {
             delay(TIMEOUT_SPLASH)
+            preferences.setBooleanData(AppConstants.KEY_HIDE_SPLASH, true)
             moveToHome()
         }
     }
