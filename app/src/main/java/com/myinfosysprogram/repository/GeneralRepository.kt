@@ -48,8 +48,7 @@ open class GeneralRepository(private val apiService: RetrofitService, private va
     fun getGeneralListApi(): LiveData<Resource<ListResponse>> {
         return object : NetworkBoundWtDbRes<ListResponse, ListResponse>(appExecutor) {
             override fun createCall(): LiveData<ApiResponse<ListResponse>> {
-                val res = apiService.getListData()
-                return res
+                return apiService.getListData()
             }
         }.asLiveData()
     }

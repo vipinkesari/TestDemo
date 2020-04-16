@@ -15,14 +15,6 @@ class Prefrences(context: Context) {
     private val preferences: SharedPreferences =
         context.getSharedPreferences(AppConstants.PREF_NAME, Context.MODE_PRIVATE)
 
-    fun setStringData(key: String, value: String) {
-        preferences.edit().putString(key, value).apply()
-    }
-
-    fun getStringData(key: String = ""): String {
-        return preferences.getString(key, "") ?: ""
-    }
-
     fun setBooleanData(key: String, shouldShow: Boolean) {
         preferences.edit().putBoolean(key, shouldShow).apply()
     }
