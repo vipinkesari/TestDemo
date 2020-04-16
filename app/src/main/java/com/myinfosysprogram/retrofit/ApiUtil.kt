@@ -9,7 +9,7 @@ class ApiUtil {
             return createCall(data)
         }
 
-        fun <T> createCall(response: T): LiveData<T> {
+        private fun <T> createCall(response: T): LiveData<T> {
             val data = MutableLiveData<T>()
             data.value = response
             return data

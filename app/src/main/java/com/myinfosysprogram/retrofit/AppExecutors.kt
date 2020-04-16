@@ -7,8 +7,8 @@ import java.util.concurrent.Executors
 
 class AppExecutors {
     private var mDiskIO: Executor
-    var mNetworkIO: Executor
-    var mMainThread: Executor
+    private var mNetworkIO: Executor
+    private var mMainThread: Executor
 
     constructor(){
         mDiskIO = Executors.newSingleThreadExecutor()
@@ -16,11 +16,11 @@ class AppExecutors {
         mMainThread = MainThreadExecutor()
     }
 
-    constructor (diskIO: Executor, networkIO: Executor, mainThread: Executor) {
+    /*constructor (diskIO: Executor, networkIO: Executor, mainThread: Executor) {
         mDiskIO = diskIO
         mNetworkIO = networkIO
         mMainThread = mainThread
-    }
+    }*/
 
     companion object {
         private class MainThreadExecutor : Executor {
@@ -34,12 +34,12 @@ class AppExecutors {
     }
 
     fun diskIO(): Executor {
-        return mDiskIO;
+        return mDiskIO
     }
 
-    fun networkIO(): Executor {
+   /* fun networkIO(): Executor {
         return mNetworkIO
-    }
+    }*/
 
     fun mainThreadIO(): Executor {
         return mMainThread
