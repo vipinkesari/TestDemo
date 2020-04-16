@@ -63,7 +63,7 @@ class HomeFragment : BaseFragment() {
             if (verifyAvailableNetwork(requireContext(), homeParentLyt))
                 getList()
             else {
-                getDatafromDB()
+                getRowsFromDB()
             }
         }
 
@@ -92,7 +92,7 @@ class HomeFragment : BaseFragment() {
         if (verifyAvailableNetwork(requireContext(), homeParentLyt))
             getList()
         else
-            getDatafromDB()
+            getRowsFromDB()
     }
 
     /* this fun defines the observer of the current view model used in fragment */
@@ -143,7 +143,7 @@ class HomeFragment : BaseFragment() {
                 homeSwipeRefreshView.isRefreshing = true
                 getList()
             } else {
-                getDatafromDB()
+                getRowsFromDB()
             }
 
         }
@@ -181,13 +181,13 @@ class HomeFragment : BaseFragment() {
             updateTitleObserver
         )
 
-        listViewModel.updateListFromDBResonse().observe(
+        listViewModel.updateListFromDBResponse().observe(
             viewLifecycleOwner,
             updateListObserver
         )
     }
 
-    fun getDatafromDB() {
+    fun getRowsFromDB() {
         listViewModel.getRowsData()
     }
 

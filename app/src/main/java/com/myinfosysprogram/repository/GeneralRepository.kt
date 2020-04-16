@@ -28,6 +28,8 @@ open class GeneralRepository(private val apiService: RetrofitService, private va
     fun saveData(list: ArrayList<Rows>, title: String) {
         CoroutineScope(Dispatchers.IO).launch {
             rowDao.nukeTable()
+            rowDao.nukeUserTable()
+
             if (title.isNotEmpty())
                 rowDao.insertTitle(ListResponse(title))
             for (item in list)
