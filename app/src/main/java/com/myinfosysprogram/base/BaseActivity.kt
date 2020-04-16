@@ -23,13 +23,6 @@ abstract class BaseActivity : AppCompatActivity(),LifecycleOwner, BaseActivityIn
         super.onPause()
     }
 
-    /* this is an extention function
-    *  we can use this where base class instance is used.
-    * */
-    fun toast(message: String, duration: Int = Toast.LENGTH_LONG){
-        Toast.makeText(this, message, duration).show()
-    }
-
     override fun getLifecycle(): Lifecycle {
         return super.getLifecycle()
     }

@@ -27,11 +27,4 @@ abstract class BaseFragment : Fragment() {
             ).get(T::class.java)
     }
 
-
-    /* this is an extention function
-   *  we can use this where base class instance is used.
-   * */
-    fun toast(message: String, duration: Int = Toast.LENGTH_LONG){
-        Toast.makeText(activity, message, duration).show()
-    }
 }
