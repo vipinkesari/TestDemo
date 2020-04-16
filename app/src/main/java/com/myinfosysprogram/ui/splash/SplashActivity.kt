@@ -4,6 +4,7 @@ import android.content.Intent
 import com.myinfosysprogram.R
 import com.myinfosysprogram.base.BaseActivity
 import com.myinfosysprogram.constants.AppConstants
+import com.myinfosysprogram.constants.AppConstants.Companion.TIMEOUT_SHORT_SPLASH
 import com.myinfosysprogram.constants.AppConstants.Companion.TIMEOUT_SPLASH
 import com.myinfosysprogram.prefrences.Prefrences
 import com.myinfosysprogram.ui.home.MainActivity
@@ -27,6 +28,7 @@ class SplashActivity : BaseActivity() {
 
        if(preferences.getBooleanData(AppConstants.KEY_HIDE_SPLASH)) {
            CoroutineScope(Dispatchers.Main).launch {
+               delay(TIMEOUT_SHORT_SPLASH)
                moveToHome()
            }
        }
