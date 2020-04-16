@@ -12,7 +12,7 @@ import com.myinfosysprogram.model.response.Rows
 class ListDataAdapter(private val item: ArrayList<Rows>, context: Context) :
     RecyclerView.Adapter<ListDataViewHolder>() {
 
-    var ctx: Context? = null
+    private var ctx: Context? = null
 
     init {
         this.ctx = context
@@ -33,6 +33,6 @@ class ListDataAdapter(private val item: ArrayList<Rows>, context: Context) :
     }
 
     override fun onBindViewHolder(holder: ListDataViewHolder, position: Int) {
-        holder.bind(item.get(position), ctx)
+        holder.bind(item[position], ctx)
     }
 }

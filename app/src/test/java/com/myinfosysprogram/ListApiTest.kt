@@ -57,7 +57,7 @@ class ListApiTest {
             )
             Assert.assertNotNull("Api service is null", apiService)
 
-            CoroutineScope(Dispatchers.Main).async {
+            CoroutineScope(Dispatchers.Main).launch {
                 val response: LiveData<ApiResponse<ListResponse>> = apiService.getListData()
                 assertNotNull("response is null", response)
                 assertNotNull("not getting the response", response.value)

@@ -26,16 +26,16 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  */
 class HomeFragment : BaseFragment() {
 
-    lateinit var communicatorViewModel: HomeCommunicatorViewModel
-    val listViewModel: ListViewModel by viewModel()
+    private lateinit var communicatorViewModel: HomeCommunicatorViewModel
+    private val listViewModel: ListViewModel by viewModel()
 
-    lateinit var listObserver: Observer<Resource<ListResponse>>
-    lateinit var refreshUIObserver: Observer<Boolean>
-    lateinit var updateListObserver: Observer<List<Rows>>
-    lateinit var updateTitleObserver: Observer<List<ListResponse>>
+    private lateinit var listObserver: Observer<Resource<ListResponse>>
+    private lateinit var refreshUIObserver: Observer<Boolean>
+    private lateinit var updateListObserver: Observer<List<Rows>>
+    private lateinit var updateTitleObserver: Observer<List<ListResponse>>
 
-    lateinit var mAdapter: ListDataAdapter
-    var listRes: ArrayList<Rows> = arrayListOf()
+    private lateinit var mAdapter: ListDataAdapter
+    private var listRes: ArrayList<Rows> = arrayListOf()
 
     private fun getLayoutId(): Int {
         return R.layout.fragment_home
@@ -98,7 +98,7 @@ class HomeFragment : BaseFragment() {
     /* this fun defines the observer of the current view model used in fragment */
     private fun initObserver() {
         listObserver = Observer {
-            if (it.Success && it.data != null) {
+            if (it.success && it.data != null) {
                 val listResponse: ListResponse? = it.data as ListResponse
 
                 if (listRes.isNotEmpty())
@@ -109,14 +109,14 @@ class HomeFragment : BaseFragment() {
                     communicatorViewModel.updateTitle(title)
                 }
 
-                if (listResponse?.rows?.isEmpty() ?: true) {
+                if (listResponse?.rows?.isEmpty() != false) {
                     showShackBarMsg(
                         homeParentLyt,
                         requireActivity().resources.getString(R.string.msg_no_data)
                     )
                     noDataMsgTv.visibility = View.VISIBLE
                 } else {
-                    listRes.addAll(listResponse!!.rows!!)
+                    listRes.addAll(listResponse.rows)
                     noDataMsgTv.visibility = View.GONE
                 }
                 mAdapter.notifyDataSetChanged()
@@ -150,7 +150,7 @@ class HomeFragment : BaseFragment() {
 
         updateTitleObserver = Observer {
             if (it != null && it.isNotEmpty()) {
-                communicatorViewModel.updateTitle(it.get(0).title)
+                communicatorViewModel.updateTitle(it[0].title)
             }
         }
 
@@ -187,11 +187,11 @@ class HomeFragment : BaseFragment() {
         )
     }
 
-    fun getRowsFromDB() {
+    private fun getRowsFromDB() {
         listViewModel.getRowsData()
     }
 
-    fun updateDataIntoTable(title: String) {
+    private fun updateDataIntoTable(title: String) {
         listViewModel.updateDatabase(listRes, title)
     }
 

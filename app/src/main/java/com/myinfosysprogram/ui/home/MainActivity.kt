@@ -1,6 +1,5 @@
 package com.myinfosysprogram.ui.home
 
-import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.lifecycle.Observer
@@ -14,10 +13,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity() {
 
-    lateinit var communicatorViewModel: HomeCommunicatorViewModel
-
-    val listViewModel: ListViewModel by viewModel()
-    lateinit var titleObserver: Observer<String>
+    private lateinit var communicatorViewModel: HomeCommunicatorViewModel
+    private lateinit var titleObserver: Observer<String>
 
     override fun getLayoutId(): Int {
         return R.layout.activity_main
@@ -45,10 +42,6 @@ class MainActivity : BaseActivity() {
         val actionBar = supportActionBar
         actionBar!!.title = title
         cacheDir
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

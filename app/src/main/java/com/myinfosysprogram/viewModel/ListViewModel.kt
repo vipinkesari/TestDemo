@@ -19,11 +19,11 @@ class ListViewModel(private val generalRepository: GeneralRepository) : ViewMode
 
     //var generalRepository: GeneralRepository = GeneralRepository()
 
-    var generalRequestMutableLiveData = MutableLiveData<GeneralRequest>()
-    var listResponseLiveData: LiveData<Resource<ListResponse>>
+    private var generalRequestMutableLiveData = MutableLiveData<GeneralRequest>()
+    private var listResponseLiveData: LiveData<Resource<ListResponse>>
 
-    var titleUpdateMutableLiveData = MutableLiveData<List<ListResponse>>()
-    var listUpdateMutableLiveData = MutableLiveData<List<Rows>>()
+    private var titleUpdateMutableLiveData = MutableLiveData<List<ListResponse>>()
+    private var listUpdateMutableLiveData = MutableLiveData<List<Rows>>()
 
     init {
         listResponseLiveData = Transformations.switchMap(generalRequestMutableLiveData) { input ->
@@ -39,8 +39,8 @@ class ListViewModel(private val generalRepository: GeneralRepository) : ViewMode
     }
 
     fun getRowsData() {
-        var list = generalRepository.getRowsListFromDb()
-        var title = generalRepository.getTitleFromDb()
+        val list = generalRepository.getRowsListFromDb()
+        val title = generalRepository.getTitleFromDb()
 
         titleUpdateMutableLiveData.value = title
         listUpdateMutableLiveData.value = list
