@@ -5,6 +5,7 @@ import android.content.Context
 import com.myinfosysprogram.prefrences.prefModule
 import com.myinfosysprogram.repository.repositoryModule
 import com.myinfosysprogram.retrofit.networkModule
+import com.myinfosysprogram.roomDb.databaseModule
 import com.myinfosysprogram.viewModel.listViewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -28,7 +29,7 @@ class MyApplication : Application(){
         startKoin {
             androidLogger()
             androidContext(this@MyApplication)
-            modules(listOf(prefModule, listViewModelModule, networkModule, repositoryModule))
+            modules(listOf(prefModule, listViewModelModule, networkModule, repositoryModule, databaseModule))
         }
     }
 
