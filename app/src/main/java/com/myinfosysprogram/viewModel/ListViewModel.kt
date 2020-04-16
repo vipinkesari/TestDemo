@@ -6,22 +6,24 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.myinfosysprogram.model.request.GeneralRequest
 import com.myinfosysprogram.model.response.ListResponse
-import com.myinfosysprogram.prefrences.Prefrences
+import com.myinfosysprogram.model.response.Rows
 import com.myinfosysprogram.repository.GeneralRepository
-import com.myinfosysprogram.retrofit.AbsentLiveData
 import com.myinfosysprogram.retrofit.Resource
 import org.koin.dsl.module
-import java.util.*
 
-val listViewModelModule = module{
-        factory { ListViewModel(get()) }
+val listViewModelModule = module {
+    factory { ListViewModel(get()) }
 }
-class ListViewModel(private val generalRepository: GeneralRepository) : ViewModel(){
+
+class ListViewModel(private val generalRepository: GeneralRepository) : ViewModel() {
 
     //var generalRepository: GeneralRepository = GeneralRepository()
 
     var generalRequestMutableLiveData = MutableLiveData<GeneralRequest>()
     var listResponseLiveData: LiveData<Resource<ListResponse>>
+
+    var titleUpdateMutableLiveData = MutableLiveData<List<ListResponse>>()
+    var listUpdateMutableLiveData = MutableLiveData<List<Rows>>()
 
     init {
         listResponseLiveData = Transformations.switchMap(generalRequestMutableLiveData) { input ->
@@ -32,9 +34,25 @@ class ListViewModel(private val generalRepository: GeneralRepository) : ViewMode
         }
     }
 
+    fun updateDatabase(list: ArrayList<Rows>, title: String) {
+        generalRepository.saveData(list, title)
+    }
+
+    fun getRowsData() {
+        var list = generalRepository.getRowsListFromDb()
+        var title = generalRepository.getTitleFromDb()
+
+        titleUpdateMutableLiveData.value = title
+        listUpdateMutableLiveData.value = list
+    }
+
     fun getGeneralMutableRequest(request: GeneralRequest) {
         generalRequestMutableLiveData.value = (request)
     }
 
     fun getListResponse() = listResponseLiveData
+
+    fun updateTitleFromDBResponse() = titleUpdateMutableLiveData
+
+    fun updateListFromDBResonse() = listUpdateMutableLiveData
 }

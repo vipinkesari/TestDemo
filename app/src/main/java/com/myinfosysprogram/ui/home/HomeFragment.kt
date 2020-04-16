@@ -35,7 +35,7 @@ class HomeFragment : BaseFragment() {
     lateinit var updateTitleObserver: Observer<List<ListResponse>>
 
     lateinit var mAdapter: ListDataAdapter
-    var listRes: ArrayList<Rows> = arrayListOf();
+    var listRes: ArrayList<Rows> = arrayListOf()
 
     private fun getLayoutId(): Int {
         return R.layout.fragment_home
@@ -51,7 +51,7 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initUI();
+        initUI()
     }
 
     private fun initUI() {
@@ -71,7 +71,7 @@ class HomeFragment : BaseFragment() {
         noDataMsgTv.visibility = View.GONE
 
         initObserver()
-        initAdapter();
+        initAdapter()
     }
 
     /* method to communicate with view model to fetch the list from server */
@@ -104,7 +104,7 @@ class HomeFragment : BaseFragment() {
                 if (listRes.isNotEmpty())
                     listRes.clear()
 
-                var title = listResponse?.title ?: ""
+                val title = listResponse?.title ?: ""
                 if (!TextUtils.isEmpty(title)) {
                     communicatorViewModel.updateTitle(title)
                 }
