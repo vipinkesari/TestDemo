@@ -1,9 +1,6 @@
 package com.myinfosysprogram.roomDb
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.myinfosysprogram.model.response.ListResponse
 import com.myinfosysprogram.model.response.Rows
 import kotlinx.coroutines.Deferred
@@ -19,6 +16,9 @@ interface RowsDao {
 
     @Query("DELETE FROM list_rows")
     fun nukeTable()
+
+    @Query("DELETE FROM ListResponse")
+    suspend fun nukeUserTable()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend  fun insertTitle(title: ListResponse)

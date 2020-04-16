@@ -32,6 +32,8 @@ public final class RowsDao_Impl implements RowsDao {
 
   private final SharedSQLiteStatement __preparedStmtOfNukeTable;
 
+  private final SharedSQLiteStatement __preparedStmtOfNukeUserTable;
+
   public RowsDao_Impl(RoomDatabase __db) {
     this.__db = __db;
     this.__insertionAdapterOfRows = new EntityInsertionAdapter<Rows>(__db) {
@@ -79,6 +81,13 @@ public final class RowsDao_Impl implements RowsDao {
       @Override
       public String createQuery() {
         final String _query = "DELETE FROM list_rows";
+        return _query;
+      }
+    };
+    this.__preparedStmtOfNukeUserTable = new SharedSQLiteStatement(__db) {
+      @Override
+      public String createQuery() {
+        final String _query = "DELETE FROM ListResponse";
         return _query;
       }
     };
@@ -130,6 +139,25 @@ public final class RowsDao_Impl implements RowsDao {
       __db.endTransaction();
       __preparedStmtOfNukeTable.release(_stmt);
     }
+  }
+
+  @Override
+  public Object nukeUserTable(final Continuation<? super Unit> p0) {
+    return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
+      @Override
+      public Unit call() throws Exception {
+        final SupportSQLiteStatement _stmt = __preparedStmtOfNukeUserTable.acquire();
+        __db.beginTransaction();
+        try {
+          _stmt.executeUpdateDelete();
+          __db.setTransactionSuccessful();
+          return Unit.INSTANCE;
+        } finally {
+          __db.endTransaction();
+          __preparedStmtOfNukeUserTable.release(_stmt);
+        }
+      }
+    }, p0);
   }
 
   @Override

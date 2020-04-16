@@ -54,5 +54,5 @@ class ListViewModel(private val generalRepository: GeneralRepository) : ViewMode
 
     fun updateTitleFromDBResponse() = titleUpdateMutableLiveData
 
-    fun updateListFromDBResonse() = listUpdateMutableLiveData
+    fun updateListFromDBResponse() = listUpdateMutableLiveData
 }
