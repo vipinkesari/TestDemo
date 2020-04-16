@@ -22,9 +22,6 @@ val repositoryModule = module {
 open class GeneralRepository(private val apiService: RetrofitService, private val rowDao: RowsDao) :
     BaseRepository() {
 
-    // var apiService: RetrofitService = AppRetrofit.getInstance()
-    //val data = rowDao.getAllRows()
-
     fun saveData(list: ArrayList<Rows>, title: String) {
         CoroutineScope(Dispatchers.IO).launch {
             rowDao.nukeTable()
@@ -52,6 +49,5 @@ open class GeneralRepository(private val apiService: RetrofitService, private va
             }
         }.asLiveData()
     }
-
 }
 

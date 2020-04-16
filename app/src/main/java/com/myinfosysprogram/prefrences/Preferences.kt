@@ -8,10 +8,10 @@ import org.koin.dsl.module
 
 
 val prefModule = module {
-    single { Prefrences(androidContext()) }
+    single { Preferences(androidContext()) }
 }
 
-class Prefrences(context: Context) {
+class Preferences(context: Context) {
     private val preferences: SharedPreferences =
         context.getSharedPreferences(AppConstants.PREF_NAME, Context.MODE_PRIVATE)
 
