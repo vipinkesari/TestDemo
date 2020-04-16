@@ -1,17 +1,13 @@
 package com.myinfosysprogram.roomDb
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.myinfosysprogram.model.response.ListResponse
 import com.myinfosysprogram.model.response.Rows
+import kotlinx.coroutines.Deferred
 
 @Dao
 interface TitleDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertTitle(title: ListResponse)
 
-    @Query("Select * from ListResponse")
-    fun getTitle(): List<ListResponse>
+    @Delete
+    suspend fun deleteUser(title: ListResponse)
 }
