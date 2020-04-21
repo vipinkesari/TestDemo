@@ -3,6 +3,7 @@ package com.myinfosysprogram.retrofit
 import androidx.lifecycle.LiveData
 import com.myinfosysprogram.constants.ApiConstants
 import com.myinfosysprogram.model.response.ListResponse
+import retrofit2.Call
 import retrofit2.http.GET
 
 interface RetrofitService {

@@ -15,5 +15,4 @@ val databaseModule = module {
     }
 
     factory { get<AppDatabase>().rowsDao() }
-
 }

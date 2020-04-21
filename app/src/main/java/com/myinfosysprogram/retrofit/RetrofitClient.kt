@@ -53,8 +53,10 @@ fun provideOkHttpClient(ctx: Context, authInterceptor: AuthInterceptor): OkHttpC
         .connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
 
-    val myCache = Cache(ctx.cacheDir, (5 * 12024 * 104).toLong())
-    httpClient.cache(myCache)
+    if(ctx.cacheDir != null) {
+        val myCache: Cache? = Cache(ctx.cacheDir, (5 * 12024 * 104).toLong())
+        httpClient.cache(myCache)
+    }
 
     httpClient.build()
     return OkHttpClient().newBuilder().addInterceptor(authInterceptor).build()
