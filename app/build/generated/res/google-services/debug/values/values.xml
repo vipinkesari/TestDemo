@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">425872647333-c7vjuful1ika4esanua18quio66luj0c.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">425872647333</string>
+    <string name="google_api_key" translatable="false">AIzaSyCDyfBYZfumOMu_zICFmDUkmywY9r3EU-0</string>
+    <string name="google_app_id" translatable="false">1:425872647333:android:733ce497ac0c8a6e43194c</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyCDyfBYZfumOMu_zICFmDUkmywY9r3EU-0</string>
+    <string name="google_storage_bucket" translatable="false">perceptive-seat-816.appspot.com</string>
+    <string name="project_id" translatable="false">perceptive-seat-816</string>
+</resources>
