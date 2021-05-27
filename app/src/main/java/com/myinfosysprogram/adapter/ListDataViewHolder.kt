@@ -3,31 +3,28 @@ package com.myinfosysprogram.adapter
 import android.content.Context
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.myinfosysprogram.R
 import com.myinfosysprogram.databinding.ItemHomeRvBinding
-import com.myinfosysprogram.model.response.Rows
+import com.myinfosysprogram.model.response.PhotoRows
+import com.squareup.picasso.Picasso
 
 class ListDataViewHolder(private val itemHomeRvBinding: ItemHomeRvBinding) :
     RecyclerView.ViewHolder(itemHomeRvBinding.root) {
 
-    fun bind(res: Rows, context: Context?) {
+    fun bind(res: PhotoRows, context: Context?) {
         itemHomeRvBinding.titleTv.text = (res.title)
-        itemHomeRvBinding.descTv.text = (res.description)
 
-        var imgPath = res.imageHref?:""
-        if (imgPath.isEmpty()) {
-            itemHomeRvBinding.newsIv.visibility = View.GONE
-        } else {
-            itemHomeRvBinding.newsIv.visibility = View.VISIBLE
+        var imgPath = res.thumbnailUrl?:""
+        if (imgPath.isNotEmpty()) {
+            itemHomeRvBinding.photoIv.visibility = View.VISIBLE
             if (imgPath.contains("http:"))
                 imgPath = imgPath.replace("http", "https")
-
             if (context != null) {
-                Glide.with(context).load(imgPath).placeholder(R.drawable.placeholder)
-                    .into(itemHomeRvBinding.newsIv)
-            } else {
-                itemHomeRvBinding.newsIv.visibility = View.GONE
+                Picasso.get()
+                    .load(imgPath)
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.placeholder)
+                    .into(itemHomeRvBinding.photoIv);
             }
         }
     }

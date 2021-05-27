@@ -1,8 +1,11 @@
 <resources>
     <!-- size dimensions -->
     <dimen name="dp_10">10dp</dimen>
+    <dimen name="dp_20">20dp</dimen>
+    <dimen name="zero_dp">0dp</dimen>
 
     <!-- text size dimensions -->
+    <dimen name="sp_12">12sp</dimen>
     <dimen name="sp_15">15sp</dimen>
     <dimen name="sp_20">20sp</dimen>
     <dimen name="sp_25">25sp</dimen>

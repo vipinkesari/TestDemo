@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/parentView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_10"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/titleTv"
+                style="@style/Item_TextViewStyle"
+                android:hint="@string/hint_title"
+                android:textSize="@dimen/sp_20" />
+
+            <TextView
+                android:id="@+id/companyNameTv"
+                style="@style/Item_TextViewStyle"
+                android:hint="@string/hint_company_name" />
+
+            <TextView
+                android:id="@+id/emailTv"
+                style="@style/Item_User_TextViewStyle"
+                android:hint="@string/hint_no_email" />
+
+            <TextView
+                android:id="@+id/websiteTv"
+                style="@style/Item_User_TextViewStyle"
+                android:hint="@string/hint_no_website" />
+
+            <TextView
+                android:id="@+id/addressTv"
+                style="@style/Item_User_TextViewStyle"
+                android:hint="@string/hint_no_address" />
+
+            <TextView
+                android:id="@+id/contactTv"
+                style="@style/Item_User_TextViewStyle"
+                android:hint="@string/hint_no_contact" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

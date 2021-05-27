@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
 import com.myinfosysprogram.model.request.GeneralRequest
-import com.myinfosysprogram.model.response.ListResponse
+import com.myinfosysprogram.model.response.Rows
 import com.myinfosysprogram.repository.GeneralRepository
 import com.myinfosysprogram.retrofit.ApiResponse
 import com.myinfosysprogram.retrofit.Resource
@@ -30,15 +30,13 @@ import org.mockito.MockitoAnnotations
 
 @RunWith(JUnit4::class)
 class NewListApiTest {
-
     private lateinit var apiService: RetrofitService
     private lateinit var viewModel: ListViewModel
     private lateinit var listRepository: GeneralRepository
-    private lateinit var resObserver: Observer<Resource<ListResponse>>
+    private lateinit var resObserver: Observer<Resource<List<Rows>>>
 
-    private var discoverMovieLiveData = MediatorLiveData<Resource<ListResponse>>()
-    private val successResource = Resource.success(ListResponse("Vipin"), 200)
-    private val loadingResource = Resource.loading(ListResponse("Loading..."), 0)
+    private var discoverMovieLiveData = MediatorLiveData<Resource<List<Rows>>>()
+    private val successResource = Resource.success(getSuccessList(), 200)
 
     @Mock
     private lateinit var context: Application
@@ -70,7 +68,7 @@ class NewListApiTest {
 
         runBlocking {
             discoverMovieLiveData.value = successResource
-            whenever(listRepository.getGeneralListApi()).thenReturn(asLiveData(discoverMovieLiveData))
+            whenever(listRepository.getPhotoListApi()).thenReturn(asLiveData(discoverMovieLiveData))
             // whenever(listRepository.getGeneralListApi()).thenReturn(errorResource)
         }
 
@@ -94,13 +92,12 @@ class NewListApiTest {
             Assert.assertNotNull("Api service is null", apiService)
 
             //CoroutineScope(Dispatchers.Main).async {
-            val response: LiveData<ApiResponse<ListResponse>> = apiService.getListData()
+            val response: LiveData<ApiResponse<List<Rows>>> = apiService.getPhotoListData()
 
-            println("response is not null")
             assertNotNull("response is null", response)
             assertNotNull("not getting the response", response.value)
-            assertTrue("List is null", response.value?.body?.title != null)
-            assertTrue("List is not empty", response.value?.body?.rows?.size ?: 0 > 0)
+            assertTrue("List is null", response.value?.body != null)
+            assertTrue("List is not empty", response.value?.body?.size ?: 0 > 0)
             // }
         } catch (e: AssertionError) {
             println("${e.message} - failed")
@@ -128,13 +125,27 @@ class NewListApiTest {
         viewModel.getListResponse().observeForever(resObserver)
         viewModel.getGeneralMutableRequest(GeneralRequest())
         //delay(10)
-        verify(listRepository).getGeneralListApi()
+        verify(listRepository).getPhotoListApi()
         verify(resObserver, timeout(50)).onChanged(successResource)
         verify(resObserver, timeout(50)).onChanged(successResource)
     }
 
-    fun asLiveData(result: MediatorLiveData<Resource<ListResponse>>): LiveData<Resource<ListResponse>> {
+    fun asLiveData(result: MediatorLiveData<Resource<List<Rows>>>): LiveData<Resource<List<Rows>>> {
         return result
+    }
+
+    private fun getSuccessList() : List<Rows>{
+        var list = ArrayList<Rows>()
+
+        val row = Rows().apply {
+            id = 1
+            title = "officia porro iure quia iusto qui ipsa ut modi"
+            url = "https://via.placeholder.com/600/24f355"
+            thumbnailUrl = "https://via.placeholder.com/150/24f355"
+        }
+
+        list.add(row)
+        return list
     }
 
 }

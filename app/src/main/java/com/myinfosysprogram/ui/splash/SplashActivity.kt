@@ -16,7 +16,7 @@ import org.koin.android.ext.android.inject
 
 class SplashActivity : BaseActivity() {
 
-    private var isRunning: Boolean = false
+    private var screenActive: Boolean = false
     private val preferences: Preferences by inject()
 
     override fun getLayoutId(): Int {
@@ -25,7 +25,6 @@ class SplashActivity : BaseActivity() {
 
     /* init the block of code */
     override fun initUI() {
-
        if(preferences.getBooleanData(AppConstants.KEY_HIDE_SPLASH)) {
            CoroutineScope(Dispatchers.Main).launch {
                delay(TIMEOUT_SHORT_SPLASH)
@@ -42,7 +41,7 @@ class SplashActivity : BaseActivity() {
 
     /* suspend fun for move from splash screen to home screen */
     private fun moveToHome() {
-        if (isRunning) {
+        if (screenActive) {
             val mIntent = Intent(this, MainActivity::class.java)
             intent.flags = (Intent.FLAG_ACTIVITY_SINGLE_TOP)
             startActivity(mIntent)
@@ -52,11 +51,11 @@ class SplashActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        isRunning = true
+        screenActive = true
     }
 
     override fun onPause() {
         super.onPause()
-        isRunning = false
+        screenActive = false
     }
 }

@@ -1,8 +1,12 @@
 <component name="libraryTable">
   <library name="Gradle: androidx.activity:activity-ktx:1.1.0@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d30ed67eee51164f6e5ec9af07d44da1/jetified-activity-ktx-1.1.0/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d30ed67eee51164f6e5ec9af07d44da1/jetified-activity-ktx-1.1.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/370a436e155fa9d7e92dc3543b3ea163/jetified-activity-ktx-1.1.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3b4b1b00b63a8fa08623dc2b64a52d58/jetified-activity-ktx-1.1.0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/171c099dc8e466e5b91a8c69b4ec49f4/jetified-activity-ktx-1.1.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/171c099dc8e466e5b91a8c69b4ec49f4/jetified-activity-ktx-1.1.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/171c099dc8e466e5b91a8c69b4ec49f4/jetified-activity-ktx-1.1.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

@@ -12,34 +12,30 @@
             android:layout_margin="@dimen/dp_10"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/titleTv"
-                style="@style/Item_TextViewStyle"
-                android:hint="@string/hint_title"
-                android:textSize="@dimen/sp_20" />
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_10">
 
-                <TextView
-                    android:id="@+id/descTv"
-                    style="@style/Item_TextViewStyle"
-                    android:layout_toLeftOf="@+id/newsIv"
-                    android:layout_toStartOf="@+id/newsIv"
-                    android:hint="@string/hint_desc" />
-
                 <ImageView
-                    android:id="@+id/newsIv"
+                    android:id="@+id/photoIv"
                     android:layout_width="@dimen/thumb_image_size"
                     android:layout_height="@dimen/thumb_image_size"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginStart="@dimen/dp_10"
-                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginEnd="@dimen/dp_20"
+                    android:layout_marginRight="@dimen/dp_20"
                     android:contentDescription="@string/iv_desc"
                     android:src="@drawable/placeholder" />
+
+                <TextView
+                    android:id="@+id/titleTv"
+                    style="@style/Item_TextViewStyle"
+                    android:layout_centerInParent="true"
+                    android:layout_toRightOf="@+id/photoIv"
+                    android:hint="@string/hint_title"
+                    android:textSize="@dimen/sp_20"
+                    android:layout_toEndOf="@+id/photoIv" />
             </RelativeLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

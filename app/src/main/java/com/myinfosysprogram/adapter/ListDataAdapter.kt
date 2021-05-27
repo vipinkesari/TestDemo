@@ -7,9 +7,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.myinfosysprogram.R
 import com.myinfosysprogram.databinding.ItemHomeRvBinding
-import com.myinfosysprogram.model.response.Rows
+import com.myinfosysprogram.model.response.PhotoRows
 
-class ListDataAdapter(private val item: ArrayList<Rows>, context: Context) :
+class ListDataAdapter(private val item: ArrayList<PhotoRows>, context: Context) :
     RecyclerView.Adapter<ListDataViewHolder>() {
 
     private var ctx: Context? = null

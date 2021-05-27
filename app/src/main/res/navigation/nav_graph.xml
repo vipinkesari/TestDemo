@@ -3,11 +3,42 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/photoFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
+        android:id="@+id/photoFragment"
         android:name="com.myinfosysprogram.ui.home.HomeFragment"
         android:label="@string/home_fragment_label"
-        tools:layout="@layout/fragment_home"/>
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_photoFragment_to_userFragment"
+            app:destination="@id/userFragment" />
+        <action
+            android:id="@+id/action_photoFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.myinfosysprogram.ui.home.UserFragment"
+        android:label="@string/user_page"
+        tools:layout="@layout/fragment_user">
+        <action
+            android:id="@+id/action_userFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.myinfosysprogram.ui.map.MapFragment"
+        android:label="@string/search_page"
+        tools:layout="@layout/fragment_search"/>
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.myinfosysprogram.ui.addressList.SearchFragment"
+        android:label="@string/search_page"
+        tools:layout="@layout/fragment_search"/>
+
 </navigation>

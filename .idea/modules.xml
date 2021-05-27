@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/My Infosys Program.iml" filepath="$PROJECT_DIR$/My Infosys Program.iml" group="My Infosys Program" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="My Infosys Program/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/My_Infosys_Program.iml" filepath="$PROJECT_DIR$/.idea/modules/My_Infosys_Program.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/My_Infosys_Program.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/My_Infosys_Program.app.iml" />
     </modules>
   </component>
 </project>

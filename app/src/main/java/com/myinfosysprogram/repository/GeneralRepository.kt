@@ -1,8 +1,7 @@
 package com.myinfosysprogram.repository
 
 import androidx.lifecycle.LiveData
-import com.myinfosysprogram.model.response.ListResponse
-import com.myinfosysprogram.model.response.Rows
+import com.myinfosysprogram.model.response.PhotoRows
 import com.myinfosysprogram.retrofit.ApiResponse
 import com.myinfosysprogram.retrofit.NetworkBoundWtDbRes
 import com.myinfosysprogram.retrofit.Resource
@@ -10,6 +9,7 @@ import com.myinfosysprogram.retrofit.RetrofitService
 import com.myinfosysprogram.roomDb.RowsDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import org.koin.dsl.module
 
@@ -22,30 +22,23 @@ val repositoryModule = module {
 open class GeneralRepository(private val apiService: RetrofitService, private val rowDao: RowsDao) :
     BaseRepository() {
 
-    fun saveData(list: ArrayList<Rows>, title: String) {
-        CoroutineScope(Dispatchers.IO).launch {
+    fun savePhotoData(list: ArrayList<PhotoRows>) {
+        CoroutineScope(Dispatchers.IO).async {
             rowDao.nukeTable()
-            rowDao.nukeUserTable()
-
-            if (title.isNotEmpty())
-                rowDao.insertTitle(ListResponse(title))
             for (item in list)
                 rowDao.insertRow(item)
         }
     }
 
-    fun getTitleFromDb(): List<ListResponse> {
-        return rowDao.getTitle()
-    }
-
-    fun getRowsListFromDb(): List<Rows> {
+    fun getRowsListFromDb(): List<PhotoRows> {
         return rowDao.getAllRows()
     }
 
-    fun getGeneralListApi(): LiveData<Resource<ListResponse>> {
-        return object : NetworkBoundWtDbRes<ListResponse, ListResponse>(appExecutor) {
-            override fun createCall(): LiveData<ApiResponse<ListResponse>> {
-                return apiService.getListData()
+    fun getPhotoListApi(): LiveData<Resource<List<PhotoRows>>> {
+        return object : NetworkBoundWtDbRes<List<PhotoRows>, List<PhotoRows>>(appExecutor) {
+            override fun createCall(): LiveData<ApiResponse<List<PhotoRows>>> {
+                return apiService.getPhotoListData()
+
             }
         }.asLiveData()
     }

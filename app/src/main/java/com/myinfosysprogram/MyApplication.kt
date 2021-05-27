@@ -3,9 +3,11 @@ package com.myinfosysprogram
 import android.app.Application
 import com.myinfosysprogram.prefrences.prefModule
 import com.myinfosysprogram.repository.repositoryModule
+import com.myinfosysprogram.repository.repositoryUserModule
 import com.myinfosysprogram.retrofit.networkModule
 import com.myinfosysprogram.roomDb.databaseModule
 import com.myinfosysprogram.viewModel.listViewModelModule
+import com.myinfosysprogram.viewModel.userViewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -23,8 +25,10 @@ class MyApplication : Application() {
                 listOf(
                     prefModule,
                     listViewModelModule,
+                    userViewModelModule,
                     networkModule,
                     repositoryModule,
+                    repositoryUserModule,
                     databaseModule
                 )
             )

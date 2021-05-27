@@ -2,27 +2,10 @@ package com.myinfosysprogram.roomDb
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.myinfosysprogram.model.response.ListResponse
-import com.myinfosysprogram.model.response.Rows
+import com.myinfosysprogram.model.response.PhotoRows
+import com.myinfosysprogram.model.response.UserRows
 
-@Database(entities = [ListResponse::class, Rows::class], version = 1, exportSchema = false)
+@Database(entities = [PhotoRows::class, UserRows::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun rowsDao(): RowsDao
-
-    /*companion object {
-        var INSTANCE: AppDatabase? = null
-
-        fun getAppDataBase(context: Context): AppDatabase? {
-            if (INSTANCE == null){
-                synchronized(AppDatabase::class){
-                    INSTANCE = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, AppConstants.DB_NAME).build()
-                }
-            }
-            return INSTANCE
-        }
-
-        fun destroyDataBase(){
-            INSTANCE = null
-        }
-    }*/
 }

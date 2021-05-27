@@ -28,6 +28,14 @@
         <activity android:name=".ui.home.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="orientation|screenSize|keyboardHidden"/>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCDyfBYZfumOMu_zICFmDUkmywY9r3EU-0" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

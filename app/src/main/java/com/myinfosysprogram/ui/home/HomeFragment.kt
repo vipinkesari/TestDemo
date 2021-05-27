@@ -1,24 +1,30 @@
 package com.myinfosysprogram.ui.home
 
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.myinfosysprogram.R
 import com.myinfosysprogram.adapter.ListDataAdapter
+import com.myinfosysprogram.utils.SwipeToDeleteCallback
 import com.myinfosysprogram.base.BaseFragment
 import com.myinfosysprogram.model.request.GeneralRequest
-import com.myinfosysprogram.model.response.ListResponse
-import com.myinfosysprogram.model.response.Rows
+import com.myinfosysprogram.model.response.PhotoRows
 import com.myinfosysprogram.retrofit.Resource
 import com.myinfosysprogram.utils.showShackBarMsg
 import com.myinfosysprogram.utils.verifyAvailableNetwork
 import com.myinfosysprogram.viewModel.HomeCommunicatorViewModel
 import com.myinfosysprogram.viewModel.ListViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -29,13 +35,11 @@ class HomeFragment : BaseFragment() {
     private lateinit var communicatorViewModel: HomeCommunicatorViewModel
     private val listViewModel: ListViewModel by viewModel()
 
-    private lateinit var listObserver: Observer<Resource<ListResponse>>
-    private lateinit var refreshUIObserver: Observer<Boolean>
-    private lateinit var updateListObserver: Observer<List<Rows>>
-    private lateinit var updateTitleObserver: Observer<List<ListResponse>>
+    private lateinit var listObserver: Observer<Resource<List<PhotoRows>>>
+    private lateinit var updateListObserver: Observer<List<PhotoRows>>
 
     private lateinit var mAdapter: ListDataAdapter
-    private var listRes: ArrayList<Rows> = arrayListOf()
+    private var listRes: ArrayList<PhotoRows> = arrayListOf()
 
     private fun getLayoutId(): Int {
         return R.layout.fragment_home
@@ -67,6 +71,11 @@ class HomeFragment : BaseFragment() {
             }
         }
 
+        userListCta.setOnClickListener {
+            // move to user list screen
+            Navigation.findNavController(it).navigate(R.id.action_photoFragment_to_userFragment)
+        }
+
         progressBar.visibility = View.GONE
         noDataMsgTv.visibility = View.GONE
 
@@ -89,40 +98,48 @@ class HomeFragment : BaseFragment() {
         mAdapter = ListDataAdapter(listRes, requireContext())
         homeRv.adapter = mAdapter
 
-        if (verifyAvailableNetwork(requireContext(), homeParentLyt))
-            getList()
-        else
-            getRowsFromDB()
+        val swipeHandler = object : SwipeToDeleteCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val adapter = homeRv.adapter as ListDataAdapter
+                listRes.removeAt(viewHolder.adapterPosition)
+                adapter.notifyDataSetChanged()
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(swipeHandler)
+        itemTouchHelper.attachToRecyclerView(homeRv)
+
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(500)
+            if (verifyAvailableNetwork(requireContext(), homeParentLyt))
+                getList()
+            else
+                getRowsFromDB()
+        }
     }
 
     /* this fun defines the observer of the current view model used in fragment */
     private fun initObserver() {
         listObserver = Observer {
             if (it.success && it.data != null) {
-                val listResponse: ListResponse? = it.data as ListResponse
+                val listResponse: List<PhotoRows>? = it.data as? List<PhotoRows>
 
                 if (listRes.isNotEmpty())
                     listRes.clear()
 
-                val title = listResponse?.title ?: ""
-                if (!TextUtils.isEmpty(title)) {
-                    communicatorViewModel.updateTitle(title)
-                }
-
-                if (listResponse?.rows?.isEmpty() != false) {
+                if (listResponse.isNullOrEmpty()) {
                     showShackBarMsg(
                         homeParentLyt,
                         requireActivity().resources.getString(R.string.msg_no_data)
                     )
                     noDataMsgTv.visibility = View.VISIBLE
                 } else {
-                    listRes.addAll(listResponse.rows)
+                    listRes.addAll(listResponse)
                     noDataMsgTv.visibility = View.GONE
                 }
                 mAdapter.notifyDataSetChanged()
 
                 /* check DB work */
-                updateDataIntoTable(title)
+                updateDataIntoTable()
 
                 progressBar.visibility = View.GONE
                 homeSwipeRefreshView.isRefreshing = false
@@ -132,25 +149,9 @@ class HomeFragment : BaseFragment() {
                 } else {
                     noDataMsgTv.visibility = View.GONE
                 }
-            }
-
-
-        }
-
-        /* this observer is refresh the api data if network is connected */
-        refreshUIObserver = Observer {
-            if ((verifyAvailableNetwork(requireContext(), homeParentLyt))) {
-                homeSwipeRefreshView.isRefreshing = true
-                getList()
-            } else {
-                getRowsFromDB()
-            }
-
-        }
-
-        updateTitleObserver = Observer {
-            if (it != null && it.isNotEmpty()) {
-                communicatorViewModel.updateTitle(it[0].title)
+            }else{
+                progressBar.visibility = View.GONE
+                homeSwipeRefreshView.isRefreshing = false
             }
         }
 
@@ -171,15 +172,9 @@ class HomeFragment : BaseFragment() {
             }
         }
 
-        communicatorViewModel.refreshUIMutableLiveData.observe(
-            viewLifecycleOwner,
-            refreshUIObserver
-        )
 
-        listViewModel.updateTitleFromDBResponse().observe(
-            viewLifecycleOwner,
-            updateTitleObserver
-        )
+        communicatorViewModel.updateTitle(getString(R.string.photo_page))
+        communicatorViewModel.searchHomeUI(true)
 
         listViewModel.updateListFromDBResponse().observe(
             viewLifecycleOwner,
@@ -191,8 +186,7 @@ class HomeFragment : BaseFragment() {
         listViewModel.getRowsData()
     }
 
-    private fun updateDataIntoTable(title: String) {
-        listViewModel.updateDatabase(listRes, title)
+    private fun updateDataIntoTable() {
+        listViewModel.updateDatabase(listRes)
     }
-
 }

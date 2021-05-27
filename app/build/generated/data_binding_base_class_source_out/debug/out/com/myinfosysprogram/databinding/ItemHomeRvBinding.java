@@ -16,19 +16,15 @@ import java.lang.Object;
 
 public abstract class ItemHomeRvBinding extends ViewDataBinding {
   @NonNull
-  public final TextView descTv;
-
-  @NonNull
-  public final ImageView newsIv;
+  public final ImageView photoIv;
 
   @NonNull
   public final TextView titleTv;
 
   protected ItemHomeRvBinding(Object _bindingComponent, View _root, int _localFieldCount,
-      TextView descTv, ImageView newsIv, TextView titleTv) {
+      ImageView photoIv, TextView titleTv) {
     super(_bindingComponent, _root, _localFieldCount);
-    this.descTv = descTv;
-    this.newsIv = newsIv;
+    this.photoIv = photoIv;
     this.titleTv = titleTv;
   }
 

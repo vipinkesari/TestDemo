@@ -1,6 +1,10 @@
 [
     {
-        "merged": "C:\\Android\\MyInfosysProgram\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\item_home_rv.xml",
-        "source": "C:\\Android\\MyInfosysProgram\\app\\src\\main\\res\\layout\\item_home_rv.xml"
+        "merged": "/Users/vipinkeshari/Desktop/test_git/MyInfosysProgram/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/item_user_rv.xml",
+        "source": "/Users/vipinkeshari/Desktop/test_git/MyInfosysProgram/app/src/main/res/layout/item_user_rv.xml"
+    },
+    {
+        "merged": "/Users/vipinkeshari/Desktop/test_git/MyInfosysProgram/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/item_home_rv.xml",
+        "source": "/Users/vipinkeshari/Desktop/test_git/MyInfosysProgram/app/src/main/res/layout/item_home_rv.xml"
     }
 ]

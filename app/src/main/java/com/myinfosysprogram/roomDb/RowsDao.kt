@@ -4,27 +4,26 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.myinfosysprogram.model.response.ListResponse
-import com.myinfosysprogram.model.response.Rows
+import com.myinfosysprogram.model.response.PhotoRows
+import com.myinfosysprogram.model.response.UserRows
 
 @Dao
 interface RowsDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertRow(rows: Rows)
+    suspend fun insertRow(rows: PhotoRows)
 
     @Query("Select * from list_rows")
-    fun getAllRows(): List<Rows>
+    fun getAllRows(): List<PhotoRows>
 
     @Query("DELETE FROM list_rows")
     fun nukeTable()
 
-    @Query("DELETE FROM ListResponse")
-    suspend fun nukeUserTable()
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTitle(title: ListResponse)
+    suspend fun insertUserRow(rows: UserRows)
 
-    @Query("Select * from ListResponse")
-    fun getTitle(): List<ListResponse>
+    @Query("Select * from user_rows")
+    fun getAllUserRows(): List<UserRows>
+
+    @Query("DELETE FROM user_rows")
+    fun nukeUserTable()
 }

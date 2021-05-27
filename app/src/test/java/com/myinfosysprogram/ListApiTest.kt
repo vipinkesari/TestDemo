@@ -3,7 +3,7 @@ package com.myinfosysprogram
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
 import com.myinfosysprogram.model.request.GeneralRequest
-import com.myinfosysprogram.model.response.ListResponse
+import com.myinfosysprogram.model.response.Rows
 import com.myinfosysprogram.repository.GeneralRepository
 import com.myinfosysprogram.retrofit.ApiResponse
 import com.myinfosysprogram.retrofit.RetrofitService
@@ -62,7 +62,7 @@ class ListApiTest {
         try {
             CoroutineScope(Dispatchers.IO).launch {
                 /* call the api to get the response */
-                val response: LiveData<ApiResponse<ListResponse>> = apiService.getListData()
+                val response: LiveData<ApiResponse<List<Rows>>> = apiService.getPhotoListData()
                 delay(2000)
                 println("$response")
 
@@ -72,17 +72,11 @@ class ListApiTest {
                 assertNotNull("Get in-appropriate  response from server.", response.value?.body)
                 println("Get proper result from server.")
 
-                assertFalse(
-                    "Title field of response is empty.",
-                    response.value?.body?.title.isNullOrBlank()
-                )
-                println("Title value of response is : ${response.value?.body?.title}")
-
                 assertTrue(
                     "Rows list of response is empty.",
-                    response.value?.body?.rows?.isNotEmpty() ?: false
+                    response.value?.body?.isNotEmpty() ?: false
                 )
-                println("Rows list of response size is : ${response.value?.body?.rows?.size}")
+                println("Rows list of response size is : ${response.value?.body?.size}")
             }
         } catch (e: AssertionError) {
             println("${e.message} - failed")
@@ -109,12 +103,11 @@ class ListApiTest {
     @Test
     fun room_db_test() = runBlocking {
         try {
-            val response: LiveData<ApiResponse<ListResponse>> = apiService.getListData()
+            val response: LiveData<ApiResponse<List<Rows>>> = apiService.getPhotoListData()
             assertNotNull("response is null", response)
             assertNotNull("not getting the response", response.value)
-            assertTrue("List title is empty", response.value?.body?.title != null)
-            assertTrue("List is empty empty ", response.value?.body?.rows?.size ?: 0 > 0)
-            println("Success")
+            assertTrue("List title is empty", response.value?.body != null)
+            assertTrue("List is empty empty ", response.value?.body?.size ?: 0 > 0)
         } catch (e: AssertionError) {
             println("${e.message} - failed")
         } catch (e: Exception) {

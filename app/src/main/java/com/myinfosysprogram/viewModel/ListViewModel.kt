@@ -5,8 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.myinfosysprogram.model.request.GeneralRequest
-import com.myinfosysprogram.model.response.ListResponse
-import com.myinfosysprogram.model.response.Rows
+import com.myinfosysprogram.model.response.PhotoRows
 import com.myinfosysprogram.repository.GeneralRepository
 import com.myinfosysprogram.retrofit.Resource
 import org.koin.dsl.module
@@ -17,32 +16,25 @@ val listViewModelModule = module {
 
 class ListViewModel(private val generalRepository: GeneralRepository) : ViewModel() {
 
-    //var generalRepository: GeneralRepository = GeneralRepository()
-
     private var generalRequestMutableLiveData = MutableLiveData<GeneralRequest>()
-    private var listResponseLiveData: LiveData<Resource<ListResponse>>
-
-    private var titleUpdateMutableLiveData = MutableLiveData<List<ListResponse>>()
-    private var listUpdateMutableLiveData = MutableLiveData<List<Rows>>()
+    private var listResponseLiveData: LiveData<Resource<List<PhotoRows>>>
+    private var listUpdateMutableLiveData = MutableLiveData<List<PhotoRows>>()
 
     init {
         listResponseLiveData = Transformations.switchMap(generalRequestMutableLiveData) { input ->
             if (input == null) {
                 return@switchMap null //AbsentLiveData.create()
             } else
-                return@switchMap generalRepository.getGeneralListApi()
+                return@switchMap generalRepository.getPhotoListApi()
         }
     }
 
-    fun updateDatabase(list: ArrayList<Rows>, title: String) {
-        generalRepository.saveData(list, title)
+    fun updateDatabase(list: ArrayList<PhotoRows>) {
+        generalRepository.savePhotoData(list)
     }
 
     fun getRowsData() {
         val list = generalRepository.getRowsListFromDb()
-        val title = generalRepository.getTitleFromDb()
-
-        titleUpdateMutableLiveData.value = title
         listUpdateMutableLiveData.value = list
     }
 
@@ -51,8 +43,6 @@ class ListViewModel(private val generalRepository: GeneralRepository) : ViewMode
     }
 
     fun getListResponse() = listResponseLiveData
-
-    fun updateTitleFromDBResponse() = titleUpdateMutableLiveData
 
     fun updateListFromDBResponse() = listUpdateMutableLiveData
 }

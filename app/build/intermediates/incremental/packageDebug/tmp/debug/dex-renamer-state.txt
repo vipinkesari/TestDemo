@@ -1,4 +1,10 @@
-#Thu Apr 16 20:57:31 IST 2020
-base.0=C\:\\Android\\MyInfosysProgram\\app\\build\\intermediates\\dex\\debug\\out\\classes.dex
+#Thu May 27 22:07:07 AEST 2021
+path.2=classes2.dex
+path.1=classes.dex
 path.0=classes.dex
+renamed.2=classes3.dex
+renamed.1=classes2.dex
 renamed.0=classes.dex
+base.2=/Users/vipinkeshari/Desktop/test_git/MyInfosysProgram/app/build/intermediates/dex/debug/mergeExtDexDebug/out/classes2.dex
+base.1=/Users/vipinkeshari/Desktop/test_git/MyInfosysProgram/app/build/intermediates/dex/debug/mergeProjectDexDebug/out/classes.dex
+base.0=/Users/vipinkeshari/Desktop/test_git/MyInfosysProgram/app/build/intermediates/dex/debug/mergeExtDexDebug/out/classes.dex
