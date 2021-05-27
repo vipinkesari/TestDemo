@@ -1,6 +1,7 @@
 package com.myinfosysprogram
 
 import android.app.Application
+import com.google.android.libraries.places.api.Places
 import com.myinfosysprogram.prefrences.prefModule
 import com.myinfosysprogram.repository.repositoryModule
 import com.myinfosysprogram.repository.repositoryUserModule
@@ -17,6 +18,9 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        // Initialize the SDK
+        Places.initialize(this, "AIzaSyCDyfBYZfumOMu_zICFmDUkmywY9r3EU-0")
 
         startKoin {
             androidLogger()
